@@ -1,11 +1,26 @@
 p style="color: green" = notice
 
-h1 Lines
+= paginate @lines
+.container-flow.mr-3
+  .row 
+    .col-11
+      p style="color: green" = notice
 
-#lines
-  - @lines.each do |line|
-    == render line
-    p
-      = link_to "Show this line", line
+      h1 Játékok
+      table.table
+        thead
+          tr
+            th[scope="col"]
+              | Contentuid
+            th[scope="col"]
+              | Version
+            th[scope="col"]
+              | Content
+            th[scope="col"]
+              | Action
+        tbody
 
+          - @lines.each_with_index do |line , index|
+            == render partial: "line", locals: { line: line, index: index }
+            
 = link_to "New line", new_line_path

@@ -1,31 +1,8 @@
-div id="#{dom_id line}"
-  p
-    strong Contentuid:
+tr id="#{dom_id line}"
+  td
     =< line.contentuid
-  p
-    strong Version:
-    =< line.version
-  p
-    strong Content:
-    =< line.content
-  p
-    strong Linieref:
-    =< line.linieref
-  p
-    strong Datatype:
-    =< line.datatype
-  p
-    strong Game:
-    =< line.game_id
-  p
-    strong User:
-    =< line.user_id
-  p
-    strong Uploadtype:
-    =< line.uploadtype
-  p
-    strong Lang:
-    =< line.lang
-  p
-    strong Active:
-    =< line.active
+  td
+   =< line.version 
+  td
+   =< line.content
+

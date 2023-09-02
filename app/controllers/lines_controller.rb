@@ -3,7 +3,8 @@ class LinesController < ApplicationController
 
   # GET /lines
   def index
-    @lines = Line.all
+    @lines = Line.page(params[:page])
+    
   end
 
   # GET /lines/1
