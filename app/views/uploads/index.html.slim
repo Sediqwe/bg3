@@ -3,7 +3,7 @@
     .col-11
       p style="color: green" = notice
 
-      h1 Játékok
+      h1 XML fájlok
       table.table
         thead
           tr
@@ -22,4 +22,4 @@
             == render partial: "upload", locals: { upload: upload, index: index }
             
 
-      = link_to "Új játék", new_upload_path, class: "btn btn-success rounded  border-0"
+      = link_to "Új XML feltöltés", new_upload_path, class: "btn btn-success rounded  border-0"
