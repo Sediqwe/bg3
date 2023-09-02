@@ -257,6 +257,8 @@ GEM
     sshkit (1.21.5)
       net-scp (>= 1.1.2)
       net-ssh (>= 2.8.0)
+    stimulus-rails (1.2.2)
+      railties (>= 6.0.0)
     stringio (3.0.8)
     temple (0.10.2)
     thor (1.2.2)
@@ -311,10 +313,12 @@ DEPENDENCIES
   rails (~> 7.0.6)
   ransack
   rubyzip
+  sassc-rails
   selenium-webdriver
   slim-rails
   sprockets-rails
   sqlite3 (~> 1.4)
+  stimulus-rails
   turbo-rails
   tzinfo-data
   web-console
