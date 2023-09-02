@@ -2,7 +2,7 @@
 lock "~> 3.17.1"
 
 set :rbenv_type, :user
-set :rbenv_ruby, '3.2.2'
+set :rbenv_ruby, '3.2.1'
 set :stages, %w(production)
 set :default_stage, "production"
 set :use_sudo, true
