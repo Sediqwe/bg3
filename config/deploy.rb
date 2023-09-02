@@ -2,7 +2,7 @@
 lock "~> 3.17.1"
 
 set :rbenv_type, :user
-set :rbenv_ruby, '3.2.1'
+set :rbenv_ruby, '3.2.2'
 set :stages, %w(production)
 set :default_stage, "production"
 set :use_sudo, true
@@ -11,7 +11,7 @@ set :repo_url, "https://github.com/Sediqwe/bg3.git"
 set :branch, "main"
 set :deploy_to, "/var/www/bg3"
 set :keep_releases, 3
-set :migration_command, 'db:migrate'
+set :migration_command, 'db:create'
 set :conditionally_migrate, true
 
 
