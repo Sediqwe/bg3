@@ -1,0 +1,32 @@
+p style="color: green" = notice
+.container-flow 
+  .row 
+      .col-11
+        table.table
+                thead
+                  tr
+                    th[scope="col"]
+                      | #
+                    th[scope="col"]
+                      | Neve
+                    th[scope="col"]
+                      | Leírás
+                    th[scope="col"]
+                      | Aktív?
+                tbody
+                  tr id="#{dom_id @game}"
+                    th[scope="row"]
+                      
+                    td
+                      = link_to @game.name, game_path(@game) , class: "btn btn-link"
+                    
+                    td
+                      =< @game.desc
+                    td
+                      => link_to "Módosítás »", edit_game_path(@game), class: "btn btn-primary"
+
+.row 
+  .col-2
+    =< link_to "Vissza »", games_path, class: "btn btn-success"
+  .col-2
+    = button_to "Törlés »", @game, form: { data: { turbo_confirm: 'Biztos vagy benne?' } }, method: :delete , class: "btn btn-danger"

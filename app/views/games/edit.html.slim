@@ -1,0 +1,10 @@
+h1 Editing game
+div
+  => link_to "Mutasd ezt a játékot", @game, class: "btn btn-primary text-light"
+  '|
+  =< link_to "Vissza a játékokhoz", games_path, class: "btn btn-primary text-light"
+
+== render "form", game: @game
+
+br
+

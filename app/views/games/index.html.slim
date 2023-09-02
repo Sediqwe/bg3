@@ -1,0 +1,25 @@
+.container-flow.mr-3
+  .row 
+    .col-11
+      p style="color: green" = notice
+
+      h1 Játékok
+      table.table
+        thead
+          tr
+            th[scope="col"]
+              | #
+            th[scope="col"]
+              | Neve
+            th[scope="col"]
+              | Leírás
+            th[scope="col"]
+              | Aktív?
+        tbody
+          
+          #games
+            - @games.each_with_index do |game , index|
+              == render partial: "game", locals: { game: game, index: index }
+              
+
+      = link_to "Új játék", new_game_path, class: "btn btn-success rounded  border-0"

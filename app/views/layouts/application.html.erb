@@ -5,12 +5,22 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-
+    <script src="https://kit.fontawesome.com/7abb47e8ad.js" crossorigin="anonymous"></script>
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
 
-  <body>
-    <%= yield %>
+  <body class="my-custom-bg-success ">
+    <div class="container-flex">
+      <div class="row">
+          <div class="col-2">
+          <%= render 'shared/menu' %>  
+          </div>
+          <div class="col-10">
+            <%= yield %>
+            </div>
+      </div>
+    </div>
+    
   </body>
 </html>
