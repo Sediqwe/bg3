@@ -18,6 +18,6 @@
               .col-md-12
                 = form.text_field :name, placeholder: "Neve", class: "form-control", required: true                
               .col-md-12
-                = form.text_field :desc, placeholder: "Neve", class: "form-control", required: true                
+                = form.text_field :desc, placeholder: "Leírás", class: "form-control", required: true                
               .form-button.mt-3
                 = form.submit(@game.persisted? ? "Módosítás »" : "Felvétel »", class: "btn btn-primary")

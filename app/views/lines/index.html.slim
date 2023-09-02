@@ -1,0 +1,11 @@
+p style="color: green" = notice
+
+h1 Lines
+
+#lines
+  - @lines.each do |line|
+    == render line
+    p
+      = link_to "Show this line", line
+
+= link_to "New line", new_line_path

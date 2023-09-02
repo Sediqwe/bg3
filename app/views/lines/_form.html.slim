@@ -1,0 +1,50 @@
+= form_with(model: @line) do |form|
+  - if @line.errors.any?
+    div style="color: red"
+      h2 = "#{pluralize(@line.errors.count, "error")} prohibited this line from being saved:"
+      ul
+        - @line.errors.each do |error|
+          li = error.full_message
+
+  div
+    = form.label :contentuid, style: "display: block"
+    = form.text_field :contentuid
+
+  div
+    = form.label :version, style: "display: block"
+    = form.text_field :version
+
+  div
+    = form.label :content, style: "display: block"
+    = form.text_area :content
+
+  div
+    = form.label :linieref, style: "display: block"
+    = form.number_field :linieref
+
+  div
+    = form.label :datatype, style: "display: block"
+    = form.number_field :datatype
+
+  div
+    = form.label :game_id, style: "display: block"
+    = form.text_field :game_id
+
+  div
+    = form.label :user_id, style: "display: block"
+    = form.text_field :user_id
+
+  div
+    = form.label :uploadtype, style: "display: block"
+    = form.number_field :uploadtype
+
+  div
+    = form.label :lang, style: "display: block"
+    = form.number_field :lang
+
+  div
+    = form.label :active, style: "display: block"
+    = form.check_box :active
+
+  div
+    = form.submit

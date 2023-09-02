@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  version: MyString
+  game: one
+  user: one
+  uploadtype: 1
+  active: false
+
+two:
+  version: MyString
+  game: two
+  user: two
+  uploadtype: 1
+  active: false

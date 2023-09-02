@@ -1,0 +1,11 @@
+p style="color: green" = notice
+
+h1 Uploads
+
+#uploads
+  - @uploads.each do |upload|
+    == render upload
+    p
+      = link_to "Show this upload", upload
+
+= link_to "New upload", new_upload_path

@@ -1,0 +1,30 @@
+= form_with(model: @upload) do |form|
+  - if @upload.errors.any?
+    div style="color: red"
+      h2 = "#{pluralize(@upload.errors.count, "error")} prohibited this upload from being saved:"
+      ul
+        - @upload.errors.each do |error|
+          li = error.full_message
+
+  div
+    = form.label :version, style: "display: block"
+    = form.text_field :version
+
+  div
+    = form.label :game_id, style: "display: block"
+    = form.text_field :game_id
+
+  div
+    = form.label :user_id, style: "display: block"
+    = form.text_field :user_id
+
+  div
+    = form.label :uploadtype, style: "display: block"
+    = form.number_field :uploadtype
+
+  div
+    = form.label :active, style: "display: block"
+    = form.check_box :active
+
+  div
+    = form.submit

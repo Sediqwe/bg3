@@ -4,12 +4,27 @@
       ul.list-unstyled.rounded.ms-2
         li
           = link_to root_path(), class: "vlink rounded border-0" do |home|
-                i.fas.fa-home
-                span
-                    | Főoldal
+            i.fas.fa-home
+            span
+              | Főoldal
         li
-            = link_to games_path(), class: "vlink rounded border-0" do |game|
-                i.fas.fa-upload
-                span
-                    | Játékok
-        
+          = link_to games_path(), class: "vlink rounded border-0" do |game|
+            i.fas.fa-dice
+            span
+              | Játékok
+        li
+          = link_to uploads_path(), class: "vlink rounded border-0" do |game|
+            i.fas.fa-upload
+            span
+              | Feltöltés
+        li
+          = link_to users_path(), class: "vlink rounded border-0" do |game|
+            i.fas.fa-users
+            span
+              | Felhasználók
+        li
+          = link_to lines_path(), class: "vlink rounded border-0" do |game|
+            i.fas.fa-language
+            span
+              | Fordítás
+      
