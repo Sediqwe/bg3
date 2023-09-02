@@ -5,26 +5,22 @@
       ul
         - @upload.errors.each do |error|
           li = error.full_message
-
-  div
-    = form.label :version, style: "display: block"
-    = form.text_field :version
-
-  div
-    = form.label :game_id, style: "display: block"
-    = form.text_field :game_id
-
-  div
-    = form.label :user_id, style: "display: block"
-    = form.text_field :user_id
-
-  div
-    = form.label :uploadtype, style: "display: block"
-    = form.number_field :uploadtype
-
-  div
-    = form.label :active, style: "display: block"
-    = form.check_box :active
-
-  div
-    = form.submit
+  .form-body
+    .row
+      .form-holder
+        .form-content
+          .form-items
+            h3
+            = @upload.persisted? ? "Módosítás" : "Új játék"              
+            form.requires-validation[novalidate]
+              .col-md-12
+                = form.text_field :version, placeholder: "Verzió", class: "form-control", required: true 
+              .col-md-12
+                =form.select(:game_id, options_for_select(Game.all.order(:name).collect {|u| [u.name, u.id]}, @upload.game_id), {include_blank: "Válassz", required: true , class: "form-control"})
+              .col-md-12
+                = form.collection_select :uploadtype, [["Eredeti", 1],["Fordítás", 2]], :last, :first, prompt: false, class: "block mb-2", required: true 
+              .col-md-12
+                = form.file_field :file, class:"mt-3 form-control"
+              .col-md-12
+              .form-button.mt-3
+                = form.submit(@upload.persisted? ? "Módosítás »" : "Felvétel »", class: "btn btn-primary")

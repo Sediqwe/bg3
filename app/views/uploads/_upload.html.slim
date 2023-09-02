@@ -1,16 +1,10 @@
-div id="#{dom_id upload}"
-  p
-    strong Version:
+tr id="#{dom_id upload}"
+  td
+    = link_to upload.game.name, upload_path(upload) , class: "btn btn-link"
+  td
     =< upload.version
-  p
-    strong Game:
-    =< upload.game_id
-  p
-    strong User:
-    =< upload.user_id
-  p
-    strong Uploadtype:
-    =< upload.uploadtype
-  p
-    strong Active:
-    =< upload.active
+  td
+    = number_to_human_size(upload.file.byte_size)
+  td
+    = link_to "Módosítás", edit_upload_path(upload) , class: "btn btn-success"
+    = link_to "BEOLVASÁS", readxml_path(id: upload), class: "btn btn-success"

@@ -17,9 +17,9 @@
               | Aktív?
         tbody
           
-          #games
-            - @games.each_with_index do |game , index|
-              == render partial: "game", locals: { game: game, index: index }
-              
+          
+          - @games.each_with_index do |game , index|
+            == render partial: "game", locals: { game: game, index: index }
+            
 
       = link_to "Új játék", new_game_path, class: "btn btn-success rounded  border-0"

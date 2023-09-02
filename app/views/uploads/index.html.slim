@@ -1,11 +1,25 @@
-p style="color: green" = notice
+.container-flow.mr-3
+  .row 
+    .col-11
+      p style="color: green" = notice
 
-h1 Uploads
+      h1 Játékok
+      table.table
+        thead
+          tr
+            th[scope="col"]
+              | Neve
+            th[scope="col"]
+              | Version
+            th[scope="col"]
+              | Size
+            th[scope="col"]
+              | Action
+        tbody
+          
+          
+          - @uploads.each_with_index do |upload , index|
+            == render partial: "upload", locals: { upload: upload, index: index }
+            
 
-#uploads
-  - @uploads.each do |upload|
-    == render upload
-    p
-      = link_to "Show this upload", upload
-
-= link_to "New upload", new_upload_path
+      = link_to "Új játék", new_upload_path, class: "btn btn-success rounded  border-0"
