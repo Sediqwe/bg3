@@ -3,14 +3,20 @@ p style="color: green" = notice
 
 .container-flow.mr-3
   .row
-    .col-5 
+    .col-3
+      .row 
+        = search_form_for @q, url: :lines do |f|
+          .col-9 style="float:left"
+            =f.search_field :contentuid_or_content_cont, placeholder: "Content/ContentUID kereső" , class: "form-control"
+          .col-3 style="float:left"
+            =f.submit "Keresés", class: "btn btn-success form-control"
+    .col-3
+      .row 
       = search_form_for @q, url: :lines do |f|
-        =f.search_field :contentuid_or_content_cont, placeholder: "Content/ContentUID kereső"
-        =f.search_field :contentuid_or_content_start, placeholder: "Content/ContentUID Kezdő kereső"
-        =f.submit
-
-
-  
+        .col-9 style="float:left"
+          =f.search_field :contentuid_or_content_start, placeholder: "Content/ContentUID Kezdő kereső", class: "form-control"
+        .col-3 style="float:left"
+          =f.submit "Keresés", class: "btn btn-success"
   
   .row 
     .col-11

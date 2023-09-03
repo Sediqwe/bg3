@@ -52,22 +52,17 @@ class UploadsController < ApplicationController
     if cfile.file.attached? # Ellenőrizzük, hogy van-e csatolt fájl
       t = cfile.file # A projecthez tartozó fájlt lekérjük
       filepath = ActiveStorage::Blob.service.send(:path_for, t.key) # Adatok a fájlról
-    
       # Beolvassuk a fájlt
       data = File.read(filepath)
-    
       # Fájl tartalmának feldolgozása Nokogiri segítségével
       doc = Nokogiri::XML(data)
-      content_list = doc.xpath('//content')
-    
-      translation_content = []
-    
+      content_list = doc.xpath('//content')    
+      translation_content = []    
       # Minden <content> elem feldolgozása
       content_list.each_with_index do |content, index|
         contentuid = content['contentuid']
         version = content['version']
         content_text = content.text
-    
         translation_content << {
           contentuid: contentuid,
           version: version,
@@ -104,6 +99,6 @@ class UploadsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def upload_params
-      params.require(:upload).permit(:version, :game_id, :uploadtype, :active, :file)
+      params.require(:upload).permit(:version, :game_id, :uploadtype, :active, :file, :lang)
     end
 end
