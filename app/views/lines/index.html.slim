@@ -1,26 +1,40 @@
 p style="color: green" = notice
 
-= paginate @lines
+
 .container-flow.mr-3
+  .row
+    .col-5 
+      = search_form_for @q, url: :lines do |f|
+        =f.search_field :contentuid_or_content_cont
+        =f.submit
+
+
+  
+  
   .row 
     .col-11
       p style="color: green" = notice
 
       h1 Sorok
-      table.table
-        thead
-          tr
-            th[scope="col"]
-              | Contentuid
-            th[scope="col"]
-              | Version
-            th[scope="col"]
-              | Content
-            th[scope="col"]
-              | Action
-        tbody
+      .row
+        .col
+          = paginate @lines
+      .row
+        .col
+          table.table
+            thead
+              tr
+                th[scope="col"]
+                  | Contentuid
+                th[scope="col"]
+                  | Version
+                th[scope="col"]
+                  | Content
+                th[scope="col"]
+                  | Action
+            tbody
 
-          - @lines.each_with_index do |line , index|
-            == render partial: "line", locals: { line: line, index: index }
+              - @lines.each_with_index do |line , index|
+                == render partial: "line", locals: { line: line, index: index }
             
-= link_to "New line", new_line_path
+= paginate @lines
