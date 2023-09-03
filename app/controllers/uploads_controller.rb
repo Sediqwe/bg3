@@ -86,11 +86,74 @@ class UploadsController < ApplicationController
       puts "Nincs csatolt fájl a projektben"
     end
     redirect_to uploads_path
-
-
-
-
   end
+
+
+  def download
+    up = Upload.find(params[:id])
+  
+    # Kiválasztjuk azokat a sorokat, amelyeknek uploadtype = 1 ÉS vagy a contentuid megegyezik a valid_contentuids-ben található értékekkel, vagy nincs találat
+    lines =  Line.where(uploadtype: params[:id], datatype: 1).order(id: :ASC)
+  
+    # XML generálás Builder::XmlMarkup segítségével
+    require 'builder'
+    xml_data = Builder::XmlMarkup.new(indent: 2)
+    xml_data.instruct! :xml, encoding: 'utf-8'
+  
+    xml_data.contentList do
+      lines.each do |line|
+        controlline = Line.where(contentuid: line.contentuid,version: line.version, datatype: 2, oke: true).first
+        if controlline.nil?
+          data = line.content
+        else
+          data = controlline.content
+        end
+        xml_data.content(data, contentuid: line.contentuid, version: line.version)
+      end
+    end
+  
+    # Az XML adatokat egy temporális fájlba mentjük
+    tmp_xml_file = Rails.root.join('tmp', up.file.filename.to_s)
+    File.open(tmp_xml_file, 'w') do |file|
+      file.write(xml_data.target!)
+    end
+  
+    # A fájlt letöltjük a böngészőbe
+    send_file(tmp_xml_file, filename: up.file.filename.to_s, type: 'application/xml')
+  end
+  
+  
+    
+  
+  
+  
+  def download2
+      # Lekérdezzük az összes Line rekordot
+      up = Upload.find(params[:id])
+      lines = Line.where(uploadtype: params[:id])
+    
+      # XML generálás Builder::XmlMarkup segítségével
+      require 'builder'
+      xml_data = Builder::XmlMarkup.new(indent: 2)
+      xml_data.instruct! :xml, encoding: 'utf-8'
+    
+      xml_data.contentList do
+        lines.each do |line|
+          xml_data.content(line.content, contentuid: line.contentuid, version: line.version)
+        end
+      end
+    
+      # Az XML adatokat egy temporális fájlba mentjük
+      tmp_xml_file = Rails.root.join('tmp', up.file.filename.to_s)
+      File.open(tmp_xml_file, 'w') do |file|
+        file.write(xml_data.target!)
+      end
+    
+      # A fájlt letöltjük a böngészőbe
+      send_file(tmp_xml_file, filename: up.file.filename.to_s, type: 'application/xml')
+    end
+    
+  
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_upload

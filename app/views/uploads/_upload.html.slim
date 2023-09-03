@@ -9,3 +9,5 @@ tr id="#{dom_id upload}"
     = link_to "Módosítás", edit_upload_path(upload) , class: "btn btn-success"
     - if upload.active != true
       = link_to "BEOLVASÁS", readxml_path(id: upload), class: "btn btn-success"
+    - else
+      = link_to "LETÖLTÉS", download_path(id: upload), class: "btn btn-success"

@@ -8,4 +8,5 @@ class Line < ApplicationRecord
   def self.ransackable_associations(auth_object = nil)
     ["content", "contentuid"]
   end
+  
 end

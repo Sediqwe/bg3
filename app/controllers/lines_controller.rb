@@ -5,6 +5,8 @@ class LinesController < ApplicationController
   def index
     @q = Line.ransack(params[:q])
     @lines = @q.result().where(datatype: 1).order(contentuid: :ASC).page(params[:page])
+    
+    
   end
 
   # GET /lines/1
@@ -50,7 +52,7 @@ class LinesController < ApplicationController
       format.js { render js: "window.location.reload();" }
     end
   end
-  
+
   def create2
     @line = Line.new(line_params)
 
