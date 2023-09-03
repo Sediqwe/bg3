@@ -10,12 +10,15 @@ tr id="#{dom_id line}"
     - adat = Line.where(contentuid: line.contentuid, datatype: 2).order(id: :ASC)
     -adat.each do |linex|
       -if linex.oke == true
-        = link_to linex.content, linegood_path(id: linex.id), remote:true, class: "btn  btn-sm btn-outline-success"
-        = link_to "Mégse", linebad_path(id: linex.id), remote:true, class: "btn btn-sm btn-outline-danger m-2"
+        .row
+          .col-10
+            = link_to linex.content, linegood_path(id: linex.id), remote:true, class: "btn  btn-sm btn-outline-success"
+          .col-1
+            = link_to "Mégse", linebad_path(id: linex.id), remote:true, class: "btn btn-sm btn-outline-danger "
       -else
-        = link_to linex.content, linegood_path(id: linex.id), remote:true 
+        = link_to linex.content, linegood_path(id: linex.id), remote:true , class: "btn btn-link"
       br
-tr id="translate_#{line.id}"
+tr hidden="hidden" id=("translate_#{line.id}")
   td
     =< line.contentuid
   td

@@ -4,7 +4,8 @@ $(document).on('turbo:load', function() {
     $('td[id^="line_"]').on('click', function(){
       var id = $(this).attr("id").replace("line_","");
       $('tr[id^="translate_"]').hide();
-      $('#translate_' + id).show();
+      $('#translate_' + id).show().css('visibility', 'visible').removeAttr("hidden");
+
       }); 
     $('#upload_uploadtype').on('change', function(){
       

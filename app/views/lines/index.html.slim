@@ -19,7 +19,7 @@ p style="color: green" = notice
           =f.submit "Keresés", class: "btn btn-success"
   
   .row 
-    .col-11
+    .col-12.pr-5
       p style="color: green" = notice
 
       h1 Sorok
@@ -28,7 +28,7 @@ p style="color: green" = notice
           = paginate @lines
       .row
         .col
-          table.table
+          table.table.table-striped
             thead
               tr
                 th[scope="col"]
