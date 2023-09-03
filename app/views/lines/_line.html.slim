@@ -33,6 +33,6 @@ tr id="#{dom_id line}"
         = form.hidden_field :lang, value: 99
         = form.hidden_field :linieref, value: line.id
         = form.hidden_field :uploadtype, value: line.uploadtype
-        = form.text_field :content, class:"form-control"
+        = form.text_area :content,value: line.content, class:"form-control"
     
   

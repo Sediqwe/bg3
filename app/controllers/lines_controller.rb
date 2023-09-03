@@ -5,8 +5,6 @@ class LinesController < ApplicationController
   def index
     @q = Line.ransack(params[:q])
     @lines = @q.result().where(datatype: 1).order(contentuid: :ASC).page(params[:page])
-    
-    
   end
 
   # GET /lines/1
