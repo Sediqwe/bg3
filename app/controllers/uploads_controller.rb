@@ -72,6 +72,8 @@ class UploadsController < ApplicationController
           contentuid: contentuid,
           version: version,
           content: content_text,
+          datatype: cfile.uploadtype,
+          uploadtype: cfile.id,
           game_id: cfile.game_id,
           user_id: userid,
           created_at: Time.now,
