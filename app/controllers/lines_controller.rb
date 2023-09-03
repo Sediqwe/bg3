@@ -4,7 +4,7 @@ class LinesController < ApplicationController
   # GET /lines
   def index
     @q = Line.ransack(params[:q])
-    @lines = @q.result(distinct: true).page(params[:page])
+    @lines = @q.result().order(contentuid: :DESC).page(params[:page])
   end
 
   # GET /lines/1
