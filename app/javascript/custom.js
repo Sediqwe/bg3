@@ -3,7 +3,7 @@ $(document).on('turbo:load', function() {
     $('tr[id^="translate_"]').hide();
     $('td[id^="line_"]').on('click', function(){
       var id = $(this).attr("id").replace("line_","");
-
+      $('tr[id^="translate_"]').hide();
       $('#translate_' + id).show();
       }); 
     $('#upload_uploadtype').on('change', function(){
