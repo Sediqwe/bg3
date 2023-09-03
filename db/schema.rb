@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_03_141505) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_03_203023) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -64,8 +64,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_03_141505) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "oke", default: false
+    t.index ["content"], name: "index_lines_on_content"
+    t.index ["contentuid"], name: "index_lines_on_contentuid"
+    t.index ["datatype"], name: "index_lines_on_datatype"
     t.index ["game_id"], name: "index_lines_on_game_id"
     t.index ["user_id"], name: "index_lines_on_user_id"
+    t.index ["version"], name: "index_lines_on_version"
   end
 
   create_table "uploads", force: :cascade do |t|
