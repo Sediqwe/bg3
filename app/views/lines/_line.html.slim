@@ -22,7 +22,7 @@ tr id="#{dom_id line}"
     td
       =< line.contentuid
     td
-    =< line.version 
+      =< line.version 
     td[colspan=2]
       = form_for(Line.create, url: lines_path, remote: true) do |form|
         = form.hidden_field :contentuid, value: line.contentuid
