@@ -5,7 +5,6 @@ Rails.application.routes.draw do
   resources :games
   get "login", to:"session#new"
   get "logout", to:"session#destroy"
-  get "init", to: "users#sediqwe"
   post "/session/create"
   get "linegood", to: "lines#good"
   get "linebad", to: "lines#bad"
