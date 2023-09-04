@@ -34,5 +34,7 @@ tr id="#{dom_id line}"
         = form.hidden_field :linieref, value: line.id
         = form.hidden_field :uploadtype, value: line.uploadtype
         = form.text_area :content,value: line.content, class:"form-control"
+        = form.submit "Beküldés", class: "btn btn-success"
+
     
   

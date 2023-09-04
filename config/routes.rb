@@ -3,6 +3,9 @@ Rails.application.routes.draw do
   resources :uploads
   resources :users
   resources :games
+  get "login", to: "user#login"
+  get "logout", to: "user#logout"
+  get "reg", to: "user#register"
   get "linegood", to: "lines#good"
   get "linebad", to: "lines#bad"
   get "linedelete", to: "lines#delete"

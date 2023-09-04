@@ -87,7 +87,40 @@ class UploadsController < ApplicationController
     end
     redirect_to uploads_path
   end
+  
+
   def download
+    up = Upload.find(params[:id])
+  
+    # SQL lekérdezés a megfelelő sorok kiválasztásához
+    lines = Line.joins("LEFT JOIN lines AS controllines ON lines.contentuid = controllines.contentuid AND lines.version = controllines.version AND controllines.datatype = 2 AND controllines.oke = true")
+                .where(uploadtype: params[:id], datatype: 1)
+                .order(id: :ASC)
+                .select("lines.content, lines.contentuid, lines.version, COALESCE(controllines.content, lines.content) AS controlled_content")
+  
+    # XML generálás a Builder::XmlMarkup segítségével
+    xml_data = Builder::XmlMarkup.new(indent: 2)
+    xml_data.instruct! :xml, encoding: 'UTF-8'
+    
+    xml_data.contentList do
+      lines.each do |line|
+        xml_data.content(contentuid: line.contentuid, version: line.version) do
+          xml_data << line.controlled_content
+        end
+      end
+    end
+  
+    # Az XML adatokat egy temporális fájlba mentjük
+    tmp_xml_file = Rails.root.join('tmp', up.file.filename.to_s)
+    File.open(tmp_xml_file, 'w:UTF-8') do |file|
+      file.write(xml_data.target!)
+    end
+  
+    # A fájlt letöltjük a böngészőbe
+    send_file(tmp_xml_file, filename: up.file.filename.to_s, type: 'application/xml', disposition: 'attachment')
+  end
+  
+  def download_OK
     up = Upload.find(params[:id])
   
     # Az SQL lekérdezés segítségével kiválasztjuk azokat a sorokat, amelyeknek uploadtype = 1 ÉS vagy a contentuid megegyezik a valid_contentuids-ben található értékekkel, vagy nincs találat
@@ -97,131 +130,26 @@ class UploadsController < ApplicationController
                 .select("lines.content, lines.contentuid, lines.version, COALESCE(controllines.content, lines.content) AS controlled_content")
   
     # XML generálás Builder::XmlMarkup segítségével
-    require 'builder'
-    xml_data = Builder::XmlMarkup.new(indent: 2)
-    xml_data.instruct! :xml, encoding: 'utf-8'
-  
-    xml_data.contentList do
-      lines.each do |line|
-        xml_data.content(line.controlled_content, contentuid: line.contentuid, version: line.version)
-      end
-    end
-  
-    # Az XML adatokat egy temporális fájlba mentjük
-    tmp_xml_file = Rails.root.join('tmp', up.file.filename.to_s)
-    File.open(tmp_xml_file, 'w') do |file|
-      file.write(xml_data.target!)
-    end
-  
-    # A fájlt letöltjük a böngészőbe
-    send_file(tmp_xml_file, filename: up.file.filename.to_s, type: 'application/xml')
-  end
-
-  def download2
-
-    #BARD kalapszar
-    up = Upload.find(params[:id])
-  
-    # A `Line` táblázatból kiválasztjuk azokat a sorokat, amelyeknek `uploadtype` értéke megegyezik a bemeneti értékkel, és `datatype` értéke 1.
-    lines = Line.where(uploadtype: params[:id], datatype: 1)
-  
-    # A `Line` táblázatból kiválasztjuk azokat a sorokat, amelyeknek `contentuid` és `version` értéke megegyezik a `lines` táblázat soraiéval, és `datatype` értéke 2, és `oke` értéke true.
-    controllines = Line.where(contentuid: lines.pluck(:contentuid), version: lines.pluck(:version), datatype: 2, oke: true)
-  
-    # Az XML generálás Builder::XmlMarkup segítségével
-    require 'builder'
-    xml_data = Builder::XmlMarkup.new(indent: 2)
-    xml_data.instruct! :xml, encoding: 'utf-8'
-  
-    xml_data.contentList do
-      lines.each do |line|
-        controlline = controllines.find_by(contentuid: line.contentuid, version: line.version)
-        if controlline.present?
-          data = controlline.content
-        else
-          data = line.content
-        end
-        xml_data.content(data, contentuid: line.contentuid, version: line.version)
-      end
-    end
-  
-    # Az XML adatokat egy temporális fájlba mentjük
-    tmp_xml_file = Rails.root.join('tmp', up.file.filename.to_s)
-    File.open(tmp_xml_file, 'w') do |file|
-      file.write(xml_data.target!)
-    end
-  
-    # A fájlt letöltjük a böngészőbe
-    send_file(tmp_xml_file, filename: up.file.filename.to_s, type: 'application/xml') 
-  end
-
-
-
-  def download_jo
-    up = Upload.find(params[:id])
-  
-    # Kiválasztjuk azokat a sorokat, amelyeknek uploadtype = 1 ÉS vagy a contentuid megegyezik a valid_contentuids-ben található értékekkel, vagy nincs találat
-    lines =  Line.where(uploadtype: params[:id], datatype: 1).order(id: :ASC)
-  
-    # XML generálás Builder::XmlMarkup segítségével
-    require 'builder'
-    xml_data = Builder::XmlMarkup.new(indent: 2)
-    xml_data.instruct! :xml, encoding: 'utf-8'
-  
-    xml_data.contentList do
-      lines.each do |line|
-        controlline = Line.where(contentuid: line.contentuid,version: line.version, datatype: 2, oke: true).first
-        if controlline.nil?
-          data = line.content
-        else
-          data = controlline.content
-        end
-        xml_data.content(data, contentuid: line.contentuid, version: line.version)
-      end
-    end
-  
-    # Az XML adatokat egy temporális fájlba mentjük
-    tmp_xml_file = Rails.root.join('tmp', up.file.filename.to_s)
-    File.open(tmp_xml_file, 'w') do |file|
-      file.write(xml_data.target!)
-    end
-  
-    # A fájlt letöltjük a böngészőbe
-    send_file(tmp_xml_file, filename: up.file.filename.to_s, type: 'application/xml')
-  end
-  
-  
-    
-  
-  
-  
-  def download2
-      # Lekérdezzük az összes Line rekordot
-      up = Upload.find(params[:id])
-      lines = Line.where(uploadtype: params[:id])
-    
-      # XML generálás Builder::XmlMarkup segítségével
-      require 'builder'
-      xml_data = Builder::XmlMarkup.new(indent: 2)
-      xml_data.instruct! :xml, encoding: 'utf-8'
-    
-      xml_data.contentList do
+   
+    xml_data = Nokogiri::XML::Builder.new do |xml|
+      xml.contentList do
         lines.each do |line|
-          xml_data.content(line.content, contentuid: line.contentuid, version: line.version)
+          xml.content(line.controlled_content, contentuid: line.contentuid, version: line.version)
         end
       end
-    
-      # Az XML adatokat egy temporális fájlba mentjük
-      tmp_xml_file = Rails.root.join('tmp', up.file.filename.to_s)
-      File.open(tmp_xml_file, 'w') do |file|
-        file.write(xml_data.target!)
-      end
-    
-      # A fájlt letöltjük a böngészőbe
-      send_file(tmp_xml_file, filename: up.file.filename.to_s, type: 'application/xml')
     end
     
   
+    # Az XML adatokat egy temporális fájlba mentjük
+    tmp_xml_file = Rails.root.join('tmp', up.file.filename.to_s)
+    File.open(tmp_xml_file, 'w') do |file|
+      file.write(xml_data.target!)
+    end
+  
+    # A fájlt letöltjük a böngészőbe
+    send_file(tmp_xml_file, filename: up.file.filename.to_s, type: 'application/xml')
+  end
+   
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_upload
