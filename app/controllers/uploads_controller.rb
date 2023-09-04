@@ -91,38 +91,6 @@ class UploadsController < ApplicationController
 
   def download
     up = Upload.find(params[:id])
-    require 'builder'
-    # SQL lekérdezés a megfelelő sorok kiválasztásához
-    lines = Line.joins("LEFT JOIN lines AS controllines ON lines.contentuid = controllines.contentuid AND lines.version = controllines.version AND controllines.datatype = 2 AND controllines.oke = true")
-                .where(uploadtype: params[:id], datatype: 1)
-                .order(id: :ASC)
-                .select("lines.content, lines.contentuid, lines.version, COALESCE(controllines.content, lines.content) AS controlled_content")
-  
-    # XML generálás a Builder::XmlMarkup segítségével
-    xml_data = Builder::XmlMarkup.new()
-    xml_data.instruct! :xml, encoding: 'UTF-8'
-    
-    xml_data.contentList do
-      lines.each do |line|
-        xml_data.content(contentuid: line.contentuid, version: line.version) do
-          xml_data << line.controlled_content
-        end
-        xml_data << "\n" # Sorvége karakter hozzáadása
-      end
-    end
-  
-    # Az XML adatokat egy temporális fájlba mentjük
-    tmp_xml_file = Rails.root.join('tmp', up.file.filename.to_s)
-    File.open(tmp_xml_file, 'w:UTF-8') do |file|
-      file.write(xml_data.target!)
-    end
-  
-    # A fájlt letöltjük a böngészőbe
-    send_file(tmp_xml_file, filename: up.file.filename.to_s, type: 'application/xml', disposition: 'attachment')
-  end
-  
-  def download_OK
-    up = Upload.find(params[:id])
   
     # Az SQL lekérdezés segítségével kiválasztjuk azokat a sorokat, amelyeknek uploadtype = 1 ÉS vagy a contentuid megegyezik a valid_contentuids-ben található értékekkel, vagy nincs találat
     lines = Line.joins("LEFT JOIN lines AS controllines ON lines.contentuid = controllines.contentuid AND lines.version = controllines.version AND controllines.datatype = 2 AND controllines.oke = true")
@@ -131,15 +99,15 @@ class UploadsController < ApplicationController
                 .select("lines.content, lines.contentuid, lines.version, COALESCE(controllines.content, lines.content) AS controlled_content")
   
     # XML generálás Builder::XmlMarkup segítségével
-   
-    xml_data = Nokogiri::XML::Builder.new do |xml|
-      xml.contentList do
-        lines.each do |line|
-          xml.content(line.controlled_content, contentuid: line.contentuid, version: line.version)
-        end
+    require 'builder'
+    xml_data = Builder::XmlMarkup.new(indent: 2)
+    xml_data.instruct! :xml, encoding: 'utf-8'
+  
+    xml_data.contentList do
+      lines.each do |line|
+        xml_data.content(line.controlled_content, contentuid: line.contentuid, version: line.version)
       end
     end
-    
   
     # Az XML adatokat egy temporális fájlba mentjük
     tmp_xml_file = Rails.root.join('tmp', up.file.filename.to_s)
@@ -150,7 +118,7 @@ class UploadsController < ApplicationController
     # A fájlt letöltjük a böngészőbe
     send_file(tmp_xml_file, filename: up.file.filename.to_s, type: 'application/xml')
   end
-   
+ 
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_upload
