@@ -1,6 +1,6 @@
 .col-md-5
   .card
-    = image_tag(game.gameimage.variant(resize_to_fill: [500, 700], crop: "500x700+0+0"), class: 'img-fluid')
+    = image_tag(game.gameimage.variant(resize_to_fill: [500, 700], crop: "500x700+0+0"), class: 'img-fluid') if game.gameimage.present?
     .card-body
       .white-stripe
       p.card.text
