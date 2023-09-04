@@ -3,6 +3,8 @@ Rails.application.routes.draw do
   resources :lines
   resources :uploads
   resources :games
+  get "user", to: "users#index"
+  patch "/user", to: "users#update"
   get "login", to:"session#new"
   get "logout", to:"session#destroy"
   post "/session/create"

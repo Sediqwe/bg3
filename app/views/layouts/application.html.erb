@@ -6,11 +6,18 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <script src="https://kit.fontawesome.com/7abb47e8ad.js" crossorigin="anonymous"></script>
-    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "application", "data-turbo-track": "load" %>
     <%= javascript_importmap_tags %>
   </head>
 
   <body class="my-custom-bg-success ">
+  
+  <% if flash[:notice].present? %>
+  <div class="notice bg-info"><%= flash[:notice] %></div>
+  <% end %>
+
+
+
     <div class="container-flex">
       <div class="row">
           <div class="col-1">

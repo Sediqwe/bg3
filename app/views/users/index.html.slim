@@ -1,2 +1,24 @@
-h1 Users#index
-p Find me in app/views/users/index.html.slim
+= form_with(model: @user) do |form|
+  - if @user.errors.any?
+    div style="color: red"
+      h2 = "#{pluralize(@game.errors.count, "error")} prohibited this game from being saved:"
+      ul
+        - @user.errors.each do |error|
+          li = error.full_message
+
+  .form-body
+    .row
+      .form-holder
+        .form-content
+          .form-items
+            h3
+            = @user.persisted? ? "Módosítás" : "Új játék"              
+            form.requires-validation[novalidate]
+                .col-md-12
+                    = form.text_field :name, placeholder: "Neve", class: "form-control", required: true                
+                .col-md-12
+                    = form.password_field :password, class: "form-control", required: true                
+                .col-md-12
+                    = form.password_field :password_confirmation, class: "form-control", required: true                
+                .form-button.mt-3
+                    = form.submit(@user.persisted? ? "Módosítás »" : "Felvétel »", class: "btn btn-primary")
