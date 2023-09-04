@@ -3,9 +3,7 @@ class LinesController < ApplicationController
   before_action :authorized?, only: %i[new edit update destroy show index]
   # GET /lines
   def index
-    if !session[:selected]
-      session[:selected] = params[:id]
-    end
+    session[:selected] = params[:id]
     @updata = Upload.find(session[:selected])
     @stat0 = Line.where(datatype:1, uploadtype: session[:selected]).size
     @stat1 = Line.where(datatype:2, uploadtype: session[:selected]).where("oke IS NULL OR oke = ?", false).size
