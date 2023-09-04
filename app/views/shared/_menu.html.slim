@@ -16,21 +16,10 @@
               span
                 | Játékok
           li
-            = link_to uploads_path(), class: "vlink rounded border-0" do |game|
-              i.fas.fa-upload
-              span
-                | Feltöltés
-          
-          li
             = link_to users_path(), class: "vlink rounded border-0" do |game|
               i.fas.fa-users
               span
-                | Felhasználók
-          li
-            = link_to lines_path(), class: "vlink rounded border-0" do |game|
-              i.fas.fa-language
-              span
-                | Fordítás
+                | Felhasználók          
           li.rounded.text-dark
             = link_to logout_path(), class: "vlink rounded border-0" do |game|
               i.fas.fa-door-open style="color: green;"
