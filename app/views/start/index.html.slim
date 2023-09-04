@@ -1,3 +1,11 @@
 
 -if current_user
     |BELÉPVE
+- @logok.each do |item|
+    .row.bg-info
+        .col-3
+            =item.user.name.capitalize
+        .col-3
+            =item.page
+        .col-3
+            =item.desc

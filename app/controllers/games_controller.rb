@@ -25,6 +25,10 @@ class GamesController < ApplicationController
     @game = Game.new(game_params)
 
     if @game.save
+      log = Logola.new
+      log.user = current_user
+      log.desc = "Új játék felvéve => #{@game.name}"
+      log.save
       redirect_to games_path, notice: "Game was successfully created."
     else
       render :new, status: :unprocessable_entity

@@ -1,0 +1,11 @@
+p style="color: green" = notice
+
+h1 Blogs
+
+#blogs
+  - @blogs.each do |blog|
+    == render blog
+    p
+      = link_to "Show this blog", blog
+
+= link_to "New blog", new_blog_path

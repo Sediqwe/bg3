@@ -1,0 +1,18 @@
+
+=link_to "Új felhasználó felvétele:" , user_new_path, class: "btn btn-success"
+-@userslist.each do |user|
+    .row
+        .col-2
+            =user.name
+        .col-2
+            = user.email 
+        .col-2 
+            -case user.usertype
+                -when 1
+                    |Admin
+                -when 2
+                    | Fordító
+                -when 3
+                    | Teszter                
+                -else
+                    |Hiba van!       

@@ -24,6 +24,12 @@ class UploadsController < ApplicationController
     @upload = Upload.new(upload_params)
     @upload.user_id = User.first.id
     if @upload.save
+      log = Logola.new
+      log.user = current_user
+      log.page = "Page: Uploads#Create"
+      log.desc = "Új feltöltött XML file. #{@upload.game.name} (#{@upload.file.filename})(#{@upload.version})"
+      log.save
+
       redirect_to @upload, notice: "Upload was successfully created."
     else
       render :new, status: :unprocessable_entity
@@ -41,6 +47,11 @@ class UploadsController < ApplicationController
 
   # DELETE /uploads/1
   def destroy
+    log = Logola.new
+    log.user = current_user
+    log.page = "Page: Uploads#Destroy"
+    log.desc = "XML file letörölve. #{@destroy.inspect}"
+    log.save
     @upload.destroy
     redirect_to uploads_url, notice: "Upload was successfully destroyed.", status: :see_other
   end

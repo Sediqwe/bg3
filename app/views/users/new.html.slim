@@ -1,0 +1,4 @@
+= link_to "Vissza a játékok oldalra", games_path, class: "btn btn-primary"
+- if current_user.usertype == 1
+    == render "form", user: @user
+
