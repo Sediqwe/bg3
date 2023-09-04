@@ -7,25 +7,39 @@
             i.fas.fa-home
             span
               | Főoldal
-        li
-          = link_to games_path(), class: "vlink rounded border-0" do |game|
-            i.fas.fa-dice
-            span
-              | Játékok
-        li
-          = link_to uploads_path(), class: "vlink rounded border-0" do |game|
-            i.fas.fa-upload
-            span
-              | Feltöltés
-         
-        li
-          = link_to users_path(), class: "vlink rounded border-0" do |game|
-            i.fas.fa-users
-            span
-              | Felhasználók
-        li
-          = link_to lines_path(), class: "vlink rounded border-0" do |game|
-            i.fas.fa-language
-            span
-              | Fordítás
+        - if current_user
+          
+        
+          li
+            = link_to games_path(), class: "vlink rounded border-0" do |game|
+              i.fas.fa-dice
+              span
+                | Játékok
+          li
+            = link_to uploads_path(), class: "vlink rounded border-0" do |game|
+              i.fas.fa-upload
+              span
+                | Feltöltés
+          
+          li
+            = link_to users_path(), class: "vlink rounded border-0" do |game|
+              i.fas.fa-users
+              span
+                | Felhasználók
+          li
+            = link_to lines_path(), class: "vlink rounded border-0" do |game|
+              i.fas.fa-language
+              span
+                | Fordítás
+          li.rounded.text-dark
+            = link_to logout_path(), class: "vlink rounded border-0" do |game|
+              i.fas.fa-door-open style="color: green;"
+              span
+                | Kilépés
+        - else
+          li 
+              = link_to login_path(), class: "vlink rounded border-0" do |game|
+                i.fas.fa-sign-in-alt
+                span 
+                  | Belépés
       

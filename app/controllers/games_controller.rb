@@ -1,5 +1,6 @@
 class GamesController < ApplicationController
   before_action :set_game, only: %i[ show edit update destroy ]
+  before_action :authorized?, only: %i[new edit update destroy show index]
 
   # GET /games
   def index

@@ -1,6 +1,6 @@
 class LinesController < ApplicationController
   before_action :set_line, only: %i[ show edit update destroy ]
-
+  before_action :authorized?, only: %i[new edit update destroy show index]
   # GET /lines
   def index
     @q = Line.ransack(params[:q])
