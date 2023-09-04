@@ -10,7 +10,6 @@ class LinesController < ApplicationController
     @stat0 = Line.where(datatype:1, uploadtype: session[:selected]).size
     @stat1 = Line.where(datatype:2, uploadtype: session[:selected]).where("oke IS NULL OR oke = ?", false).size
     @stat2 = Line.where(datatype:2, uploadtype: session[:selected], oke: true).size
-    
     @q = Line.ransack(params[:q])
     @lines = @q.result().where(datatype: 1, uploadtype: session[:selected]).order(contentuid: :ASC).page(params[:page])
   end
@@ -28,17 +27,33 @@ class LinesController < ApplicationController
   def edit
   end
   def create
-    @line = Line.new(line_params)
-  
-    respond_to do |format|
-      if @line.save
-        format.html { redirect_to lines_path, notice: 'Sikeresen létrehoztad a vonalat!' }
+    linecheck = Line.where(contentuid: line_params[:contentuid], user:current_user.id, version:line_params[:version],datatype:2).first
+    if !linecheck
+      @line = Line.new(line_params)
+    
+      respond_to do |format|
+        if @line.save
+          format.html { redirect_to lines_path, notice: 'Sikeresen feévetted' }
+          format.js   # Ez hivatkozik majd a create.js.erb fájlra
+        else
+          format.html { render :new }
+          format.json { render json: @line.errors, status: :unprocessable_entity }
+        end
+      end
+    else
+      linecheck.content = line_params[:content]
+      linecheck.oke = false
+      respond_to do |format|
+      if linecheck.save
+        format.html { redirect_to lines_path, notice: 'Sikeresen feévetted' }
         format.js   # Ez hivatkozik majd a create.js.erb fájlra
       else
         format.html { render :new }
         format.json { render json: @line.errors, status: :unprocessable_entity }
       end
+      end
     end
+      
   end
   # POST /lines
   def good
@@ -68,7 +83,19 @@ class LinesController < ApplicationController
       render :new, status: :unprocessable_entity
     end
   end
+  def translatecopy
 
+    upload = Upload.find_by(selected: true)
+    forditasok = Line.where(datatype:2, game_id: upload.game_id).where("uploadtype != ?", session[:selected])
+    forditasok.each do |tom|
+      eredeti = Line.where(datatype:1, uploadtype: params[:uploadtype], contentuid: tom.contentuid, content: tom.content, game_id: tom.game_id)
+      if eredeti
+        
+        Line.find(tom.id).update(uploadtype: upload.id)
+      end
+    end
+    redirect_to gameindex_path(game_id: upload.game_id), notice: "Amit lehet, átpakoltam."    
+  end
   # PATCH/PUT /lines/1
   def update
     if @line.update(line_params)
@@ -92,6 +119,6 @@ class LinesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def line_params
-      params.require(:line).permit(:contentuid, :version, :content, :linieref, :datatype, :game_id, :user_id, :uploadtype, :lang, :active)
+      params.require(:line).permit(:contentuid, :version, :oldcontent, :content, :linieref, :datatype, :game_id, :user_id, :uploadtype, :lang, :active)
     end
 end

@@ -1,16 +1,29 @@
 tr  id="#{dom_id upload}" 
-  td class="#{ " bg-secondary " if upload.selected}"
-    = link_to upload.game.name, lines_path(id:upload) , class: "btn btn-link"
-  td class="#{ " bg-secondary " if upload.selected}"
+  td class="#{ " my-custom-bg-lime " if upload.selected}"
+    = link_to upload.game.name, lines_path(id:upload) , class: "btn btn-success #{" disabled " if !upload.selected }" 
+  td class="#{ " bg-lime " if upload.selected}"
     =< upload.version
-  td class="#{ " bg-secondary " if upload.selected}"
+  td class="#{ " bg-lime " if upload.selected}"
     = number_to_human_size(upload.file.byte_size)
-  td class="#{ " bg-secondary " if upload.selected}"
-    = link_to "Módosítás", edit_upload_path(upload) , class: "btn btn-success m-2"
-    - if upload.readxml != true
-      = link_to "Beolvasás", readxml_path(id: upload), class: "btn btn-success"
+  td class="#{ " bg-lime " if upload.selected}"
+    p
+      | Összes sor: 
+      = stat(upload.id)[:total_lines]
+    p
+      | Lefordított sorok: 
+      = stat(upload.id)[:translated_lines]
+    p
+      | Lektorált sorok: 
+      = stat(upload.id)[:proofread_lines]
 
+  td class="#{ " bg-lime " if upload.selected}"
+    = link_to "Módosítás", edit_upload_path(upload) , class: "btn btn-success m-2"
+    - updata = Line.where(uploadtype: upload.id).first
+    - if !  updata
+      = link_to "Beolvasás", readxml_path(id: upload), class: "btn btn-success"
     - else
       = link_to "Letöltés", download_path(id: upload), class: "btn btn-success "
     - if !upload.selected
-      = link_to "AKTÍV VERZIÓ", active_path(id: upload), class: "btn btn-success m-2"
+      = link_to "Aktív verzió", active_path(id: upload), class: "btn btn-success m-2"
+    - else
+      = link_to "Fordítás átemelése", translatecopy_path(uploadtype: upload), class: "btn btn-success m-2"

@@ -2,9 +2,11 @@ class UploadsController < ApplicationController
   before_action :set_upload, only: %i[ show edit update destroy ]
   before_action :authorized?, only: %i[new edit update destroy show index]
   include LogHelper
+  include UploadsHelper
   # GET /uploads
   def gameindex
-    @uploads = Upload.where(game_id: params[:game_id]).order(id: :ASC)    
+    @uploads = Upload.where(game_id: params[:game_id]).order(id: :ASC)
+
   end
   def index
     @uploads = Upload.all
@@ -60,6 +62,7 @@ class UploadsController < ApplicationController
     Upload.where(game_id: upload.game_id).update(selected: false)
     upload.selected = true
     upload.save
+    session[:selected] = params[:id]
     create_log(current_user, "Page: Uploads#active", "Kijelölt fő verzió aktiválva. #{upload.game.name}")
     redirect_to gameindex_path(game_id: upload.game_id)
   end

@@ -7,7 +7,7 @@ tr id="#{dom_id line}"
     =< line.content
   td
     
-    - adat = Line.where(contentuid: line.contentuid, datatype: 2).order(id: :ASC)
+    - adat = Line.where(contentuid: line.contentuid, datatype: 2, uploadtype: session[:selected]).order(id: :ASC)
     -adat.each do |linex|
       -if linex.oke == true
         .row
@@ -33,7 +33,8 @@ tr id="#{dom_id line}"
         = form.hidden_field :lang, value: 99
         = form.hidden_field :linieref, value: line.id
         = form.hidden_field :uploadtype, value: line.uploadtype
-        = form.text_area :content,value: line.content, class:"form-control"
+        = form.hidden_field :oldcontent, value: line.content
+        = form.text_area :content,placeholder: line.content, class:"form-control"
         = form.submit "Beküldés", class: "btn btn-success"
 
     
