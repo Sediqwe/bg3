@@ -3,8 +3,16 @@ class LinesController < ApplicationController
   before_action :authorized?, only: %i[new edit update destroy show index]
   # GET /lines
   def index
+    if !session[:selected]
+      session[:selected] = params[:id]
+    end
+    @updata = Upload.find(session[:selected])
+    @stat0 = Line.where(datatype:1, uploadtype: session[:selected]).size
+    @stat1 = Line.where(datatype:2, uploadtype: session[:selected]).where("oke IS NULL OR oke = ?", false).size
+    @stat2 = Line.where(datatype:2, uploadtype: session[:selected], oke: true).size
+    
     @q = Line.ransack(params[:q])
-    @lines = @q.result().where(datatype: 1).order(contentuid: :ASC).page(params[:page])
+    @lines = @q.result().where(datatype: 1, uploadtype: session[:selected]).order(contentuid: :ASC).page(params[:page])
   end
 
   # GET /lines/1

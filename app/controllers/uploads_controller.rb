@@ -1,9 +1,10 @@
 class UploadsController < ApplicationController
   before_action :set_upload, only: %i[ show edit update destroy ]
   before_action :authorized?, only: %i[new edit update destroy show index]
+  include LogHelper
   # GET /uploads
   def gameindex
-    @uploads = Upload.where(game_id: params[:game_id])
+    @uploads = Upload.where(game_id: params[:game_id]).order(id: :ASC)    
   end
   def index
     @uploads = Upload.all
@@ -50,21 +51,24 @@ class UploadsController < ApplicationController
 
   # DELETE /uploads/1
   def destroy
-    log = Logola.new
-    log.user = current_user
-    log.page = "Page: Uploads#Destroy"
-    log.desc = "XML file letörölve. #{@destroy.inspect}"
-    log.save
+    create_log(current_user, "Page: Uploads#Destroy", "XML file letörölve. #{@destroy.inspect}")
     @upload.destroy
     redirect_to uploads_url, notice: "Upload was successfully destroyed.", status: :see_other
   end
-
+  def active
+    upload = Upload.find(params[:id])
+    Upload.where(game_id: upload.game_id).update(selected: false)
+    upload.selected = true
+    upload.save
+    create_log(current_user, "Page: Uploads#active", "Kijelölt fő verzió aktiválva. #{upload.game.name}")
+    redirect_to gameindex_path(game_id: upload.game_id)
+  end
   #Read xml
   def readxml
-    upload = Upload.find_by(id: params[:id]) # Próbáld megtalálni a megadott ID-jű upload-ot
+    upload = Line.where(uploadtype: params[:id]).first # Próbáld megtalálni a megadott ID-jű upload-ot
     if !upload
       cfile = Upload.find(params[:id]) # Project ID lekérés
-      userid = User.first.id
+      userid = current_user.id
       if cfile.file.attached? # Ellenőrizzük, hogy van-e csatolt fájl
         t = cfile.file # A projecthez tartozó fájlt lekérjük
         filepath = ActiveStorage::Blob.service.send(:path_for, t.key) # Adatok a fájlról
@@ -95,7 +99,7 @@ class UploadsController < ApplicationController
         # Az adatok betöltése az adatbázisba
         Line.insert_all(translation_content)
       
-        cfile.active = true # Elmentjük az uploadot, hogy ez már fel van véve!
+        cfile.readxml = true # Elmentjük az uploadot, hogy ez már fel van véve!
         cfile.save
       else
         # Kezeljük az esetet, amikor nincs csatolt fájl

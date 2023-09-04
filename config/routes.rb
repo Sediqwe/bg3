@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   resources :lines
   resources :uploads
   resources :games
+  get "active", to: "uploads#active"
   get "gameindex",to: "uploads#gameindex"
   get "user", to: "users#index"
   post "users", to: "users#create"

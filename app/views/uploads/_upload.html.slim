@@ -1,15 +1,16 @@
-tr id="#{dom_id upload}"
-  td
-    = link_to upload.game.name, upload_path(upload) , class: "btn btn-link"
-  td
+tr  id="#{dom_id upload}" 
+  td class="#{ " bg-secondary " if upload.selected}"
+    = link_to upload.game.name, lines_path(id:upload) , class: "btn btn-link"
+  td class="#{ " bg-secondary " if upload.selected}"
     =< upload.version
-  td
+  td class="#{ " bg-secondary " if upload.selected}"
     = number_to_human_size(upload.file.byte_size)
-  td
+  td class="#{ " bg-secondary " if upload.selected}"
     = link_to "Módosítás", edit_upload_path(upload) , class: "btn btn-success m-2"
-    - if upload.active != true
+    - if upload.readxml != true
       = link_to "Beolvasás", readxml_path(id: upload), class: "btn btn-success"
 
     - else
       = link_to "Letöltés", download_path(id: upload), class: "btn btn-success "
-      = link_to "AKTÍV", readxml_path(id: upload), class: "btn btn-success"
+    - if !upload.selected
+      = link_to "AKTÍV VERZIÓ", active_path(id: upload), class: "btn btn-success m-2"

@@ -14,7 +14,6 @@ gem 'jquery-rails'
 ruby "3.2.1"
 gem 'mini_magick'
 gem 'image_processing', '~> 1.2'
-
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 7.0.6"
 

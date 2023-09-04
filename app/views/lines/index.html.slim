@@ -20,9 +20,32 @@ p style="color: green" = notice
   
   .row 
     .col-12.pr-5
-      p style="color: green" = notice
+      .row
+        p style="color: green" = notice
 
-      h1 Sorok
+        h1 Aktív fordítási project: 
+        h2 
+          |#
+          =@updata.id  
+          |,   
+          = @updata.game.name
+          |(verzió: 
+
+          = @updata.version
+
+          | , feltöltve: 
+          = @updata.created_at
+          |)
+      .row 
+        |Sorok száma:   
+        =@stat0
+        br
+        | Ellenörzésre vár:   
+        =@stat1
+        br
+        |Lektorálva:  
+        =@stat2 
+
       .row
         .col
           = paginate @lines
