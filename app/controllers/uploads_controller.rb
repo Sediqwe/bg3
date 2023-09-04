@@ -91,7 +91,7 @@ class UploadsController < ApplicationController
 
   def download
     up = Upload.find(params[:id])
-  
+    require 'builder'
     # SQL lekérdezés a megfelelő sorok kiválasztásához
     lines = Line.joins("LEFT JOIN lines AS controllines ON lines.contentuid = controllines.contentuid AND lines.version = controllines.version AND controllines.datatype = 2 AND controllines.oke = true")
                 .where(uploadtype: params[:id], datatype: 1)
