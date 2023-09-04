@@ -4,7 +4,7 @@ class GamesController < ApplicationController
 
   # GET /games
   def index
-    @games = Game.all
+    @games = Game.all.order(id: :ASC)
   end
 
   # GET /games/1
@@ -23,7 +23,6 @@ class GamesController < ApplicationController
   # POST /games
   def create
     @game = Game.new(game_params)
-
     if @game.save
       log = Logola.new
       log.user = current_user
