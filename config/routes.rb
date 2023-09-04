@@ -3,7 +3,8 @@ Rails.application.routes.draw do
   get "users", to: "users#index"
   resources :lines
   resources :uploads
-  resources :games  
+  resources :games
+  get "gameindex",to: "uploads#gameindex"
   get "user", to: "users#index"
   post "users", to: "users#create"
   get "userslist", to: "users#userslist"

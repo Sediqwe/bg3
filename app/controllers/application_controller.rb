@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
-    helper_method :current_user 
+    helper_method :current_user
+    
     def current_user
       
         if session[:user_id]
@@ -12,5 +13,8 @@ class ApplicationController < ActionController::Base
       return if current_user.present?
       flash[:error] = 'Előbb lépj be!.'
       redirect_to login_url
+    end
+    def admin?
+      current_user.present? && current_user.usertype == 1
     end
 end

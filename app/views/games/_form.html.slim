@@ -19,5 +19,7 @@
                 = form.text_field :name, placeholder: "Neve", class: "form-control", required: true                
               .col-md-12
                 = form.text_field :desc, placeholder: "Leírás", class: "form-control", required: true                
+              .col-md-12.mt-3
+                = form.file_field :gameimage, placeholder: "kép", class: "form-control"                
               .form-button.mt-3
-                = form.submit(@game.persisted? ? "Módosítás »" : "Felvétel »", class: "btn btn-primary")
+                  = form.submit(@game.persisted? ? "Módosítás »" : "Felvétel »", class: "btn btn-primary")

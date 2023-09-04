@@ -1,4 +1,5 @@
 $(document).on('turbo:load', function() {
+
     $('#upload_lang').show();
     $('tr[id^="translate_"]').hide();
     $('td[id^="line_"]').on('click', function(){

@@ -1,0 +1,25 @@
+.container-flow.mr-3
+  .row 
+    .col-11
+      p style="color: green" = notice
+
+      h1 XML fájlok
+      table.table
+        thead
+          tr
+            th[scope="col"]
+              | Neve
+            th[scope="col"]
+              | Version
+            th[scope="col"]
+              | Size
+            th[scope="col"]
+              | Action
+        tbody
+          
+          
+          - @uploads.each_with_index do |upload , index|
+            == render partial: "upload", locals: { upload: upload, index: index }
+            
+
+      = link_to "Új XML feltöltés", new_upload_path, class: "btn btn-success rounded  border-0"
