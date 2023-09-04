@@ -99,7 +99,7 @@ class UploadsController < ApplicationController
                 .select("lines.content, lines.contentuid, lines.version, COALESCE(controllines.content, lines.content) AS controlled_content")
   
     # XML generálás a Builder::XmlMarkup segítségével
-    xml_data = Builder::XmlMarkup.new(indent: 2)
+    xml_data = Builder::XmlMarkup.new()
     xml_data.instruct! :xml, encoding: 'UTF-8'
     
     xml_data.contentList do
@@ -107,6 +107,7 @@ class UploadsController < ApplicationController
         xml_data.content(contentuid: line.contentuid, version: line.version) do
           xml_data << line.controlled_content
         end
+        xml_data << "\n" # Sorvége karakter hozzáadása
       end
     end
   
