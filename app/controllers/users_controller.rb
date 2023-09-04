@@ -23,6 +23,7 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(users_params )
+    @user.name = users_params[:name].lowecase
     @user.usertype = 2
     if @user.save
       log = Logola.new
