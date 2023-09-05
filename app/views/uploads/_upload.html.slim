@@ -1,6 +1,6 @@
 tr  id="#{dom_id upload}" 
   td class="#{ " my-custom-bg-lime " if upload.selected}"
-    = link_to upload.game.name, lines_path(id:upload) , class: "btn btn-success #{" disabled " if !upload.selected }" 
+    = link_to upload.game.name, lines_path(id:upload, datatype_eq:1) , class: "btn btn-success #{" disabled " if !upload.selected }" 
   td class="#{ " bg-lime " if upload.selected}"
     =< upload.version
   td class="#{ " bg-lime " if upload.selected}"
