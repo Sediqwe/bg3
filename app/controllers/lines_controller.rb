@@ -6,13 +6,18 @@ class LinesController < ApplicationController
     if params[:id]
       session[:selected] = params[:id]
     end
-    
+    if params[:q]
+      para = params[:q]["datatype_eq"]
+    else
+      para = 1
+    end
+   
     @updata = Upload.find(session[:selected])
     @stat0 = Line.where(datatype:1, uploadtype: session[:selected]).size
     @stat1 = Line.where(datatype:2, uploadtype: session[:selected]).where("oke IS NULL OR oke = ?", false).size
     @stat2 = Line.where(datatype:2, uploadtype: session[:selected], oke: true).size
     @q = Line.ransack(params[:q])
-    @lines = @q.result().where(uploadtype: session[:selected], datatype: params[:q][:datatype_eq]).order(contentuid: :ASC).page(params[:page])
+    @lines = @q.result().where(uploadtype: session[:selected], datatype: para).order(contentuid: :ASC).page(params[:page])
   end
 
   # GET /lines/1
