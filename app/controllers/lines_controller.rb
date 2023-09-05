@@ -3,13 +3,16 @@ class LinesController < ApplicationController
   before_action :authorized?, only: %i[new edit update destroy show index]
   # GET /lines
   def index
-    session[:selected] = params[:id]
+    if params[:id]
+      session[:selected] = params[:id]
+    end
+    
     @updata = Upload.find(session[:selected])
     @stat0 = Line.where(datatype:1, uploadtype: session[:selected]).size
     @stat1 = Line.where(datatype:2, uploadtype: session[:selected]).where("oke IS NULL OR oke = ?", false).size
     @stat2 = Line.where(datatype:2, uploadtype: session[:selected], oke: true).size
     @q = Line.ransack(params[:q])
-    @lines = @q.result().where(datatype: 1, uploadtype: session[:selected]).order(contentuid: :ASC).page(params[:page])
+    @lines = @q.result().where(uploadtype: session[:selected], datatype: params[:q][:datatype_eq]).order(contentuid: :ASC).page(params[:page])
   end
 
   # GET /lines/1
@@ -25,7 +28,7 @@ class LinesController < ApplicationController
   def edit
   end
   def create
-    linecheck = Line.where(contentuid: line_params[:contentuid], user:current_user.id, version:line_params[:version],datatype:2).first
+    linecheck = Line.where(uploadtype: line_params[:uploadtype] ,contentuid: line_params[:contentuid], user:current_user.id, version:line_params[:version],datatype:2).first
     if !linecheck
       @line = Line.new(line_params)
     
@@ -39,7 +42,7 @@ class LinesController < ApplicationController
         end
       end
     else
-      linecheck.content = line_params[:content]
+      linecheck.oldcontent = line_params[:oldcontent]
       linecheck.oke = false
       respond_to do |format|
       if linecheck.save

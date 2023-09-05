@@ -69,6 +69,7 @@ class UploadsController < ApplicationController
   #Read xml
   def readxml
     upload = Line.where(uploadtype: params[:id]).first # Próbáld megtalálni a megadott ID-jű upload-ot
+    cfile = Upload.find(params[:id]) # Project ID lekérés
     if !upload
       cfile = Upload.find(params[:id]) # Project ID lekérés
       userid = current_user.id
@@ -90,7 +91,7 @@ class UploadsController < ApplicationController
             contentuid: contentuid,
             version: version,
             content: content_text,
-            datatype: cfile.uploadtype,
+            datatype: 2,
             uploadtype: cfile.id,
             game_id: cfile.game_id,
             user_id: userid,
@@ -109,7 +110,7 @@ class UploadsController < ApplicationController
         puts "Nincs csatolt fájl a projektben"
       end
     end
-    redirect_to uploads_path
+    redirect_to gameindex_path(game_id: cfile.game_id)
   end
   
 

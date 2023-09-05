@@ -1,5 +1,16 @@
 p style="color: green" = notice
+.row
+  .col-1.m-3
+    = search_form_for @q  do |f|
+      =f.hidden_field :datatype_eq, value: 2
+      =f.hidden_field :oke_eq, value: true
+      = f.submit "Elfogadottak", class:"btn btn-warning"
 
+  .col-1.m-3
+    = search_form_for @q  do |f|
+      =f.hidden_field :datatype_eq, value: 2
+      =f.hidden_field :oke_not_eq, value: true
+      = f.submit "Lefordítottak", class:"btn btn-warning"
 
 .container-flow.mr-3
   .row
@@ -7,6 +18,7 @@ p style="color: green" = notice
       .row 
         = search_form_for @q, url: :lines do |f|
           .col-9 style="float:left"
+            =f.hidden_field :datatype_eq, value: 1
             =f.search_field :contentuid_or_content_cont, placeholder: "Content/ContentUID kereső" , class: "form-control"
           .col-3 style="float:left"
             =f.submit "Keresés", class: "btn btn-success form-control"
@@ -14,6 +26,7 @@ p style="color: green" = notice
       .row 
       = search_form_for @q, url: :lines do |f|
         .col-9 style="float:left"
+          =f.hidden_field :datatype_eq, value: 1
           =f.search_field :contentuid_or_content_start, placeholder: "Content/ContentUID Kezdő kereső", class: "form-control"
         .col-3 style="float:left"
           =f.submit "Keresés", class: "btn btn-success"

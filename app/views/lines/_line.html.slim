@@ -12,11 +12,11 @@ tr id="#{dom_id line}"
       -if linex.oke == true
         .row
           .col-8
-            = link_to linex.content, linegood_path(id: linex.id), remote:true, class: "btn  btn-sm btn-outline-success"
+            = link_to linex.oldcontent, linegood_path(id: linex.id), remote:true, class: "btn  btn-sm btn-outline-success"
           .col-1
             = link_to "Mégse", linebad_path(id: linex.id), remote:true, class: "btn btn-sm btn-outline-danger "
       -else
-        = link_to linex.content, linegood_path(id: linex.id), remote:true , class: "btn btn-link"
+        = link_to linex.oldcontent, linegood_path(id: linex.id), remote:true , class: "btn btn-link"
       br
   tr hidden="hidden" id=("translate_#{line.id}")
     td
@@ -24,6 +24,12 @@ tr id="#{dom_id line}"
     td
       =< line.version 
     td[colspan=2]
+      - adat =  Line.find_by(user: current_user, contentuid: line.contentuid, version: line.version, datatype:2)
+      - adatka = ""
+      - if adat
+        |Az alábbi fordítást küldted be eddig:
+        = adatka = adat.oldcontent
+
       = form_for(Line.create, url: lines_path, remote: true) do |form|
         = form.hidden_field :contentuid, value: line.contentuid
         = form.hidden_field :game_id, value: line.game_id
@@ -33,8 +39,8 @@ tr id="#{dom_id line}"
         = form.hidden_field :lang, value: 99
         = form.hidden_field :linieref, value: line.id
         = form.hidden_field :uploadtype, value: line.uploadtype
-        = form.hidden_field :oldcontent, value: line.content
-        = form.text_area :content,placeholder: line.content, class:"form-control"
+        = form.hidden_field :content, value: line.content
+        = form.text_area :oldcontent,value: adatka, class:"form-control", required: true    
         = form.submit "Beküldés", class: "btn btn-success"
 
     
