@@ -8,10 +8,10 @@ class SessionController < ApplicationController
     p user_params[:password]
     p user.inspect
     if user
-      p "itt vagyok geci |||||||||||||||||||"
       session[:user_id] = user.id
       redirect_to root_url, notice: "Belépve!"
     else
+      
       flash.now[:login_error] = "Hibás felhasználó / jelszó páros"
       render 'new'
     end

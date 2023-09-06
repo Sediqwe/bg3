@@ -1,7 +1,7 @@
 class UploadsController < ApplicationController
   before_action :set_upload, only: %i[ show edit update destroy ]
   before_action :authorized?, only: %i[new edit update destroy show index]
-  include LogHelper
+ 
   include UploadsHelper
   # GET /uploads
   def gameindex
@@ -30,12 +30,6 @@ class UploadsController < ApplicationController
     @upload = Upload.new(upload_params)
     @upload.user_id = User.first.id
     if @upload.save
-      log = Logola.new
-      log.user = current_user
-      log.page = "Page: Uploads#Create"
-      log.desc = "Új feltöltött XML file. #{@upload.game.name} (#{@upload.file.filename})(#{@upload.version})"
-      log.save
-
       redirect_to @upload, notice: "Upload was successfully created."
     else
       render :new, status: :unprocessable_entity

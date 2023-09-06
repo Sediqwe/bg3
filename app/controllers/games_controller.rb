@@ -22,20 +22,20 @@ class GamesController < ApplicationController
 
   # POST /games
   def create
+    
     @game = Game.new(game_params)
+    
     if @game.save
-      log = Logola.new
-      log.user = current_user
-      log.desc = "Új játék felvéve => #{@game.name}"
-      log.save
+      create_log("Games#Create","Új adatlap létrehozva: #{@game.name}")  
       redirect_to games_path, notice: "Game was successfully created."
     else
       render :new, status: :unprocessable_entity
     end
   end
-
+  
   # PATCH/PUT /games/1
   def update
+    create_log("Page: Games#Update", "Játék adatlap módosítva:  #{@game.name}")
     if @game.update(game_params)
       redirect_to @game, notice: "Game was successfully updated.", status: :see_other
     else
@@ -45,8 +45,11 @@ class GamesController < ApplicationController
 
   # DELETE /games/1
   def destroy
-    @game.destroy
-    redirect_to games_url, notice: "Game was successfully destroyed.", status: :see_other
+    create_log("Page: Games#Destroy", "Játék adatlap törölve: #{@game.name}")
+    if current_user && current_user.admin? && current_user.name == "sediqwe"
+      @game.destroy
+      redirect_to games_url, notice: "Game was successfully destroyed.", status: :see_other
+    end
   end
 
   private

@@ -11,7 +11,6 @@ class LinesController < ApplicationController
     else
       para = 1
     end
-   
     @updata = Upload.find(session[:selected])
     @stat0 = Line.where(datatype:1, uploadtype: session[:selected]).size
     @stat1 = Line.where(datatype:2, uploadtype: session[:selected]).where("oke IS NULL OR oke = ?", false).size
@@ -33,6 +32,7 @@ class LinesController < ApplicationController
   def edit
   end
   def create
+    
     linecheck = Line.where(uploadtype: line_params[:uploadtype] ,contentuid: line_params[:contentuid], user:current_user.id, version:line_params[:version],datatype:2).first
     if !linecheck
       @line = Line.new(line_params)
@@ -47,6 +47,7 @@ class LinesController < ApplicationController
         end
       end
     else
+      create_log("Page: Lines#Create#Else", "Fordítás felvéve: #{line_params[:content] + " ==>\n" + line_params[:oldcontent] + "=>(" + Game.find(line_params[:game_id]).name +  ")" }")
       linecheck.oldcontent = line_params[:oldcontent]
       linecheck.oke = false
       respond_to do |format|
@@ -80,17 +81,8 @@ class LinesController < ApplicationController
     end
   end
 
-  def create2
-    @line = Line.new(line_params)
-
-    if @line.save
-      redirect_to @line, notice: "Line was successfully created."
-    else
-      render :new, status: :unprocessable_entity
-    end
-  end
   def translatecopy
-
+    create_log("Page: Lines#Translatecopy", "Fordítás átpakolva az aktív fájlba")
     upload = Upload.find_by(selected: true)
     forditasok = Line.where(datatype:2, game_id: upload.game_id).where("uploadtype != ?", session[:selected])
     forditasok.each do |tom|
@@ -104,6 +96,7 @@ class LinesController < ApplicationController
   end
   # PATCH/PUT /lines/1
   def update
+    create_log("Page: Lines#Update", "Fordítási sor felülírva")
     if @line.update(line_params)
       redirect_to @line, notice: "Line was successfully updated.", status: :see_other
     else
