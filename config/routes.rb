@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
+  root "start#index"
+
   resources :blogs
-  
   resources :lines
   resources :uploads
   resources :games
@@ -28,5 +29,5 @@ Rails.application.routes.draw do
   get "gameindex",to: "uploads#gameindex"
   get "download", to: "uploads#download"
   get 'readxml', to: "uploads#readxml"
-  root "start#index"
+  
 end

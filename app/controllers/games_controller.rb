@@ -46,10 +46,9 @@ class GamesController < ApplicationController
   # DELETE /games/1
   def destroy
     create_log("Page: Games#Destroy", "Játék adatlap törölve: #{@game.name}")
-    if current_user && current_user.admin? && current_user.name == "sediqwe"
       @game.destroy
       redirect_to games_url, notice: "Game was successfully destroyed.", status: :see_other
-    end
+    
   end
 
   private

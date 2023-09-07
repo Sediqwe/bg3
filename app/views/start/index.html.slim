@@ -1,11 +1,12 @@
-
--if current_user
-    |BELÉPVE
-- @logok.each do |item|
-    .row.bg-info
-        .col-3
-            =item.user.name.capitalize
-        .col-3
-            =item.page
-        .col-3
-            =item.desc
+ul.timeline
+  - @logok.each do |item|
+    li
+      div class=( item.id % 2 == 0 ? 'direction-l bg-secondary text-light rounded m-4' : 'direction-r bg-secondary text-light rounded m-4')
+        .flag-wrapper
+          span.flag= item.user.name.capitalize
+          span.time-wrapper
+            span.time= item.created_at
+        .desc
+          = item.page
+          hr
+          = item.desc               
