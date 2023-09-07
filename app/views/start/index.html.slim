@@ -1,12 +1,27 @@
-ul.timeline
-  - @logok.each do |item|
-    li
-      div class=( item.id % 2 == 0 ? 'direction-l bg-secondary text-light rounded m-4' : 'direction-r bg-secondary text-light rounded m-4')
-        .flag-wrapper
-          span.flag= item.user.name.capitalize
-          span.time-wrapper
-            span.time= item.created_at
-        .desc
+table.table.table-hover.table-dark.rounded.shadow
+  thead
+    tr
+      th
+        | #
+      th
+        | Name
+      th
+        | Page
+      th
+        | Desc
+      th
+        | Time
+  tbody
+    - @logok.each do |item|
+      tr
+        td
+          | 1
+        td
+          =item.user.name.capitalize
+        td
           = item.page
-          hr
-          = item.desc               
+        td 
+          = item.desc
+        td
+          =item.created_at
+    

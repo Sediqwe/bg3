@@ -30,8 +30,7 @@
 
 html, body {
     height: 100%;
-    background-color: #485e6c;
-    
+    background-color: #485e6c;    
 }
 
 
@@ -167,3 +166,8 @@ html, body {
 .valid-feedback{
    color: #2acc80;
 }
+table th{
+    background-color: rgb(43, 105, 199) !important;/* Háttérszín beállítása pirosra */
+    color: white; /* Szövegszín beállítása fehérre */
+    /* Egyéb stílus beállítások... */
+  }
