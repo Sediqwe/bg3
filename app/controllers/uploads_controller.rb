@@ -39,7 +39,7 @@ class UploadsController < ApplicationController
 
   # PATCH/PUT /uploads/1
   def update
-    create_log( "Page: Uploads#Update", "Feltöltés módosítva. #{@upload.name}")
+    create_log( "Page: Uploads#Update", "Feltöltés módosítva. #{@upload.game.name}")
     if @upload.update(upload_params)
       redirect_to @upload, notice: "Upload was successfully updated.", status: :see_other
     else
