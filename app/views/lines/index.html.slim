@@ -68,13 +68,11 @@ p style="color: green" = notice
             thead
               tr
                 th[scope="col"]
-                  | Contentuid
-                th[scope="col"]
-                  | Version
-                th[scope="col"]
                   | Content
                 th[scope="col"]
                   | Action
+                th[scope="col"]
+                  | Other
             tbody
 
               - @lines.each_with_index do |line , index|

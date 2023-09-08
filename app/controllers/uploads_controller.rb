@@ -30,6 +30,7 @@ class UploadsController < ApplicationController
     @upload = Upload.new(upload_params)
     @upload.user_id = User.first.id
     if @upload.save
+      create_log( "Page: Uploads#Create", "Feltöltés megtörtént. #{@upload.game.name} , v. #{@upload.version}, uploader:  #{@upload.user.name}")
       redirect_to @upload, notice: "Upload was successfully created."
     else
       render :new, status: :unprocessable_entity
@@ -38,6 +39,7 @@ class UploadsController < ApplicationController
 
   # PATCH/PUT /uploads/1
   def update
+    create_log( "Page: Uploads#Update", "Feltöltés módosítva. #{@upload.name}")
     if @upload.update(upload_params)
       redirect_to @upload, notice: "Upload was successfully updated.", status: :see_other
     else
@@ -47,7 +49,7 @@ class UploadsController < ApplicationController
 
   # DELETE /uploads/1
   def destroy
-    create_log(current_user, "Page: Uploads#Destroy", "XML file letörölve. #{@destroy.inspect}")
+    create_log( "Page: Uploads#Destroy", "XML file letörölve. #{@upload.inspect}")
     @upload.destroy
     redirect_to uploads_url, notice: "Upload was successfully destroyed.", status: :see_other
   end
@@ -57,12 +59,12 @@ class UploadsController < ApplicationController
     upload.selected = true
     upload.save
     session[:selected] = params[:id]
-    create_log(current_user, "Page: Uploads#active", "Kijelölt fő verzió aktiválva. #{upload.game.name}")
+    create_log("Page: Uploads#Active", "Kijelölt fő verzió aktiválva. #{upload.game.name}")
     redirect_to gameindex_path(game_id: upload.game_id)
   end
   #Read xml
   def readxml
-    upload = Line.where(uploadtype: params[:id]).first # Próbáld megtalálni a megadott ID-jű upload-ot
+    upload = Line.where(upload_id: params[:id]).first # Próbáld megtalálni a megadott ID-jű upload-ot
     cfile = Upload.find(params[:id]) # Project ID lekérés
     if !upload
       cfile = Upload.find(params[:id]) # Project ID lekérés
@@ -85,8 +87,8 @@ class UploadsController < ApplicationController
             contentuid: contentuid,
             version: version,
             content: content_text,
-            datatype: 2,
-            uploadtype: cfile.id,
+            datatype: cfile.uploadtype,
+            upload_id: cfile.id,
             game_id: cfile.game_id,
             user_id: userid,
             created_at: Time.now,
@@ -146,6 +148,6 @@ class UploadsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def upload_params
-      params.require(:upload).permit(:version, :game_id, :uploadtype, :active, :file, :lang)
+      params.require(:upload).permit(:version, :game_id, :upload, :active, :file, :lang)
     end
 end

@@ -1,5 +1,5 @@
 class StartController < ApplicationController
   def index
-    @logok = Logola.all.order(id: :DESC).last(10)
+    @logok = Logola.all.order(id: :DESC).first(10)
   end
 end

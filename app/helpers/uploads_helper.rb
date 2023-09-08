@@ -1,8 +1,8 @@
 module UploadsHelper
-    def stat(uploadtype)
-        stat0 = Line.where(datatype: 1, uploadtype: uploadtype).size
-        stat1 = Line.where(datatype: 2, uploadtype: uploadtype).where("oke IS NULL OR oke = ?", false).size
-        stat2 = Line.where(datatype: 2, uploadtype: uploadtype, oke: true).size
+    def stat(upload)
+        stat0 = Line.where(datatype: 1, upload_id: upload).size
+        stat1 = Line.where(datatype: 2, upload_id: upload).where("oke IS NULL OR oke = ?", false).size
+        stat2 = Line.where(datatype: 2, upload_id: upload, oke: true).size
     
         return {
           total_lines: stat0,

@@ -12,11 +12,11 @@ class LinesController < ApplicationController
       para = 1
     end
     @updata = Upload.find(session[:selected])
-    @stat0 = Line.where(datatype:1, uploadtype: session[:selected]).size
-    @stat1 = Line.where(datatype:2, uploadtype: session[:selected]).where("oke IS NULL OR oke = ?", false).size
-    @stat2 = Line.where(datatype:2, uploadtype: session[:selected], oke: true).size
+    @stat0 = Line.where(datatype:1, upload_id: session[:selected]).size
+    @stat1 = Line.where(datatype:2, upload_id: session[:selected]).where("oke IS NULL OR oke = ?", false).size
+    @stat2 = Line.where(datatype:2, upload_id: session[:selected], oke: true).size
     @q = Line.ransack(params[:q])
-    @lines = @q.result().where(uploadtype: session[:selected], datatype: para).order(contentuid: :ASC).page(params[:page])
+    @lines = @q.result().where(upload_id: session[:selected], datatype: para).order(contentuid: :ASC).page(params[:page])
   end
 
   # GET /lines/1
@@ -33,7 +33,7 @@ class LinesController < ApplicationController
   end
   def create
     
-    linecheck = Line.where(uploadtype: line_params[:uploadtype] ,contentuid: line_params[:contentuid], user:current_user.id, version:line_params[:version],datatype:2).first
+    linecheck = Line.where(upload_id: line_params[:upload_id] ,contentuid: line_params[:contentuid], user:current_user.id, version:line_params[:version],datatype:2).first
     if !linecheck
       @line = Line.new(line_params)
     
@@ -84,12 +84,12 @@ class LinesController < ApplicationController
   def translatecopy
     create_log("Page: Lines#Translatecopy", "Fordítás átpakolva az aktív fájlba")
     upload = Upload.find_by(selected: true)
-    forditasok = Line.where(datatype:2, game_id: upload.game_id).where("uploadtype != ?", session[:selected])
+    forditasok = Line.where(datatype:2, game_id: upload.game_id).where("upload_id != ?", session[:selected])
     forditasok.each do |tom|
-      eredeti = Line.where(datatype:1, uploadtype: params[:uploadtype], contentuid: tom.contentuid, content: tom.content, game_id: tom.game_id)
+      eredeti = Line.where(datatype:1, upload_id: params[:upload_id], contentuid: tom.contentuid, content: tom.content, game_id: tom.game_id)
       if eredeti
         
-        Line.find(tom.id).update(uploadtype: upload.id)
+        Line.find(tom.id).update(upload_id: upload.id)
       end
     end
     redirect_to gameindex_path(game_id: upload.game_id), notice: "Amit lehet, átpakoltam."    
@@ -118,6 +118,6 @@ class LinesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def line_params
-      params.require(:line).permit(:contentuid, :version, :oldcontent, :content, :linieref, :datatype, :game_id, :user_id, :uploadtype, :lang, :active)
+      params.require(:line).permit(:contentuid, :version, :oldcontent, :content, :linieref, :datatype, :game_id, :user_id, :upload_id, :lang, :active)
     end
 end

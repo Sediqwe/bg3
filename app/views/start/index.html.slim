@@ -1,4 +1,4 @@
-table.table.table-hover.table-dark.rounded.shadow
+table.table.table-hover.table-dark.rounded.shadow-lg.p-5
   thead
     tr
       th
@@ -15,7 +15,7 @@ table.table.table-hover.table-dark.rounded.shadow
     - @logok.each do |item|
       tr
         td
-          | 1
+          = item.id
         td
           =item.user.name.capitalize
         td

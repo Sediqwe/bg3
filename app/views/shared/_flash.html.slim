@@ -1,0 +1,8 @@
+- flash.each do |type, msg|
+    -if type == "error"
+        .bg-danger
+            =msg 
+    - if type == "info"
+        .bg-info
+            =msg 
+        

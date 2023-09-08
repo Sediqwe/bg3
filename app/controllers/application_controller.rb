@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::Base
+  add_flash_types :info, :error, :success
     helper_method :current_user
     include LogHelper
     def current_user      

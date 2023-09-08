@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_06_172500) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_07_162909) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -60,6 +60,21 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_06_172500) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "images", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "game_id", null: false
+    t.bigint "upload_id", null: false
+    t.string "title"
+    t.text "desc"
+    t.boolean "active", default: false
+    t.boolean "done", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["game_id"], name: "index_images_on_game_id"
+    t.index ["upload_id"], name: "index_images_on_upload_id"
+    t.index ["user_id"], name: "index_images_on_user_id"
+  end
+
   create_table "lines", force: :cascade do |t|
     t.string "contentuid"
     t.string "version"
@@ -68,16 +83,17 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_06_172500) do
     t.integer "datatype"
     t.bigint "game_id", null: false
     t.bigint "user_id", null: false
-    t.integer "uploadtype"
     t.integer "lang"
     t.boolean "active"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "oke", default: false
     t.text "oldcontent"
+    t.bigint "upload_id"
     t.index ["contentuid"], name: "index_lines_on_contentuid"
     t.index ["datatype"], name: "index_lines_on_datatype"
     t.index ["game_id"], name: "index_lines_on_game_id"
+    t.index ["upload_id"], name: "index_lines_on_upload_id"
     t.index ["user_id"], name: "index_lines_on_user_id"
     t.index ["version"], name: "index_lines_on_version"
   end
@@ -121,7 +137,11 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_06_172500) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "blogs", "users"
+  add_foreign_key "images", "games"
+  add_foreign_key "images", "uploads"
+  add_foreign_key "images", "users"
   add_foreign_key "lines", "games"
+  add_foreign_key "lines", "uploads"
   add_foreign_key "logolas", "users"
   add_foreign_key "uploads", "games"
 end

@@ -18,7 +18,7 @@ tr  id="#{dom_id upload}"
 
   td class="#{ " bg-lime " if upload.selected}"
     = link_to "Módosítás", edit_upload_path(upload) , class: "btn btn-success m-2"
-    - updata = Line.where(uploadtype: upload.id).first
+    - updata = Line.where(upload_id: upload.id).first
     - if !  updata
       = link_to "Beolvasás", readxml_path(id: upload), class: "btn btn-success"
     - else
@@ -26,4 +26,4 @@ tr  id="#{dom_id upload}"
     - if !upload.selected
       = link_to "Aktív verzió", active_path(id: upload), class: "btn btn-success m-2"
     - else
-      = link_to "Fordítás átemelése", translatecopy_path(uploadtype: upload), class: "btn btn-success m-2"
+      = link_to "Fordítás átemelése", translatecopy_path(upload: upload), class: "btn btn-success m-2"

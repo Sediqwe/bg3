@@ -1,0 +1,19 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: one
+  game_id: one
+  upload: one
+  title: MyString
+  desc: MyText
+  active: false
+  done: false
+
+two:
+  user: two
+  game_id: two
+  upload: two
+  title: MyString
+  desc: MyText
+  active: false
+  done: false

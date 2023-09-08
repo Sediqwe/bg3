@@ -1,23 +1,16 @@
--if flash.now[:login_error].present?
-  .alert.alert-danger
-    = flash.now[:login_error]
-
-
-
-
-H1 LOGIN HTML
 .form-body
     .row
       .form-holder
         .form-content
           .form-items
-            h3 LOGIN
-            
+            h3 BELÉPÉS
             = form_for :session, class: "form", url: :session_create do |form|
               .col-md-12
+                  = form.label "Username:", class:"pt-3"
                   = form.text_field :name, placeholder: "Username", class: "form-control", required: true 
               .col-md-12
+                  = form.label "Password:", class:"pt-3"
                   = form.password_field :password, placeholder: "Password", class: "form-control", required: true 
               .col-md-12
                   .form-button.mt-3
-                  = form.submit "Login", class: "btn btn-primary"
+                  = form.submit "Belépés", class: "btn btn-primary"

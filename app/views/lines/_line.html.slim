@@ -1,13 +1,15 @@
-tr id="#{dom_id line}"
-  td
+tr id="#{dom_id line}" 
+  td 
+    b Contentuid:  
     =< line.contentuid
   td
     =< line.version 
-  td id="#{dom_id line}"
+tr 
+  td id="#{dom_id line}" class="p-1"
     =< line.content
   td
     
-    - adat = Line.where(contentuid: line.contentuid, datatype: 2, uploadtype: session[:selected]).order(id: :ASC)
+    - adat = Line.where(contentuid: line.contentuid, datatype: 2, upload_id: session[:selected]).order(id: :ASC)
     -adat.each do |linex|
       -if linex.oke == true
         .row
@@ -19,16 +21,15 @@ tr id="#{dom_id line}"
         = link_to linex.oldcontent, linegood_path(id: linex.id), remote:true , class: "btn btn-link"
       br
   tr hidden="hidden" id=("translate_#{line.id}")
-    td
-      =< line.contentuid
-    td
-      =< line.version 
+ 
+ 
     td[colspan=2]
       - adat =  Line.find_by(user: current_user, contentuid: line.contentuid, version: line.version, datatype:2)
       - adatka = ""
       - if adat
         |Az alábbi fordítást küldted be eddig:
         = adatka = adat.oldcontent
+     
 
       = form_for(Line.create, url: lines_path, remote: true) do |form|
         = form.hidden_field :contentuid, value: line.contentuid
@@ -37,8 +38,7 @@ tr id="#{dom_id line}"
         = form.hidden_field :version, value: line.version
         = form.hidden_field :datatype, value: 2
         = form.hidden_field :lang, value: 99
-        = form.hidden_field :linieref, value: line.id
-        = form.hidden_field :uploadtype, value: line.uploadtype
+        = form.hidden_field :upload_id, value: line.upload_id
         = form.hidden_field :content, value: line.content
         = form.text_area :oldcontent,value: adatka, class:"form-control", required: true    
         = form.submit "Beküldés", class: "btn btn-success"
