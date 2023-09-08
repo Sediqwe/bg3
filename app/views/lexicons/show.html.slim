@@ -1,0 +1,10 @@
+p style="color: green" = notice
+
+== render @lexicon
+
+div
+  => link_to "Edit this lexicon", edit_lexicon_path(@lexicon)
+  '|
+  =< link_to "Back to lexicons", lexicons_path
+
+  = button_to "Destroy this lexicon", @lexicon, method: :delete

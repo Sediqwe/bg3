@@ -1,0 +1,11 @@
+p style="color: green" = notice
+
+h1 Lexicons
+
+#lexicons
+  - @lexicons.each do |lexicon|
+    == render lexicon
+    p
+      = link_to "Show this lexicon", lexicon
+
+= link_to "New lexicon", new_lexicon_path

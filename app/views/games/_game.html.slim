@@ -1,5 +1,5 @@
-.col-md-5
-  = link_to gameindex_path(game_id: game) do |total|
+= link_to  gameindex_path(game_id: game.id),  class:""  do |total|
+  .col-md-5
     .card
       = image_tag(game.gameimage.variant(resize_to_fill: [500, 700], crop: "500x700+0+0"), class: 'img-fluid') if game.gameimage.present?
       .card-body
@@ -8,8 +8,8 @@
           =< game.desc
         p.card-text.text-center 
           = link_to game.name, gameindex_path(game_id: game) , class: "btn btn-link"
-        -if current_user.usertype == 1
-          = link_to "Módosítás", edit_game_path(game) , class: "btn btn-success"        
+        -if current_user.admin?
+          = link_to "Módosítás", edit_game_path(game) , class: "btn btn-success btn-block"        
 
 
 

@@ -13,13 +13,22 @@
         .form-content
           .form-items
             h3
-            = @user.persisted? ? "Módosítás" : "Új User"              
+              = @user.persisted? ? "Módosítás" : "Új felhasználó"              
             form.requires-validation[novalidate]
               .col-md-12
-                = form.text_field :name, placeholder: "Neve", class: "form-control", required: true                
+                = form.label "Név:", style: "display: block " ,class: "pt-3"
+                = form.text_field :name, placeholder: "(csak kisbetűk, számok, _ és - jel használható)", class: "form-control", required: true                
               .col-md-12
+                = form.label "E-mail:", style: "display: block" ,class: "pt-3"
                 = form.text_field :email, placeholder: "E-mail", class: "form-control", required: true                
               .col-md-12
-                = form.password_field :password, placeholder: "password", class: "form-control", required: true                
+                = form.label "Jelszó:", style: "" ,class: "pt-3"
+                = form.password_field :password, placeholder: "Jelszó", class: "form-control", required: true                
+              .col-md-12
+                = form.label "Jelszó ismét:",class: "pt-3"
+                = form.password_field :password_confirmation, placeholder: "Jelszó ismét", class: "form-control", required: true                
+              .col-md-12
+                = form.label "Szint:",class: "pt-3"
+                = form.collection_select :usertype, [["Fordító", 2],["Admin", 1]], :last, :first, prompt: false, class: "form-control mb-2", required: true 
               .form-button.mt-3
                 = form.submit(@user.persisted? ? "Módosítás »" : "Felvétel »", class: "btn btn-primary")

@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :lexicons
   resources :images
   root "start#index"
 
@@ -11,7 +12,7 @@ Rails.application.routes.draw do
   get "linegood", to: "lines#good"
   get "linebad", to: "lines#bad"
   get "linedelete", to: "lines#delete"
-
+  
   
   get "users", to: "users#index"
   get "user", to: "users#index"
@@ -19,7 +20,11 @@ Rails.application.routes.draw do
   get "userslist", to: "users#userslist"
   get "/user/new", to: "users#new"
   patch "/user", to: "users#update"
-  
+  delete "/user", to: "users#destroy"
+
+  get "search", to: "images#search"
+  get "imagelineadd", to: "images#imageline"
+  delete "/imagelineremove", to: "images#imagelineremove"
   
   get "login", to:"session#new"
   get "logout", to:"session#destroy"

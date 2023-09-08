@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_07_162909) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_08_181937) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -60,19 +60,43 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_07_162909) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "imagelines", force: :cascade do |t|
+    t.bigint "image_id", null: false
+    t.bigint "line_id", null: false
+    t.bigint "user_id", null: false
+    t.boolean "done"
+    t.boolean "active"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["image_id"], name: "index_imagelines_on_image_id"
+    t.index ["line_id"], name: "index_imagelines_on_line_id"
+    t.index ["user_id"], name: "index_imagelines_on_user_id"
+  end
+
   create_table "images", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "game_id", null: false
     t.bigint "upload_id", null: false
     t.string "title"
     t.text "desc"
-    t.boolean "active", default: false
-    t.boolean "done", default: false
+    t.boolean "active"
+    t.boolean "done"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["game_id"], name: "index_images_on_game_id"
     t.index ["upload_id"], name: "index_images_on_upload_id"
     t.index ["user_id"], name: "index_images_on_user_id"
+  end
+
+  create_table "lexicons", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "word"
+    t.boolean "active"
+    t.string "wordhu"
+    t.string "lang"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_lexicons_on_user_id"
   end
 
   create_table "lines", force: :cascade do |t|
@@ -137,9 +161,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_07_162909) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "blogs", "users"
+  add_foreign_key "imagelines", "images"
+  add_foreign_key "imagelines", "lines"
+  add_foreign_key "imagelines", "users"
   add_foreign_key "images", "games"
   add_foreign_key "images", "uploads"
   add_foreign_key "images", "users"
+  add_foreign_key "lexicons", "users"
   add_foreign_key "lines", "games"
   add_foreign_key "lines", "uploads"
   add_foreign_key "logolas", "users"

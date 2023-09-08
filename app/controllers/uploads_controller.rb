@@ -49,7 +49,7 @@ class UploadsController < ApplicationController
 
   # DELETE /uploads/1
   def destroy
-    create_log( "Page: Uploads#Destroy", "XML file letörölve. #{@upload.inspect}")
+    create_log( "Page: Uploads#Destroy", "XML file letörölve. #{@upload.game.name}, version: #{@upload.version} Törölt felvett sorok: #{Line.where(file_id: @upload.id).size}")
     @upload.destroy
     redirect_to uploads_url, notice: "Upload was successfully destroyed.", status: :see_other
   end

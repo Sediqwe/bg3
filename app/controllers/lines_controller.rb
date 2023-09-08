@@ -16,7 +16,48 @@ class LinesController < ApplicationController
     @stat1 = Line.where(datatype:2, upload_id: session[:selected]).where("oke IS NULL OR oke = ?", false).size
     @stat2 = Line.where(datatype:2, upload_id: session[:selected], oke: true).size
     @q = Line.ransack(params[:q])
-    @lines = @q.result().where(upload_id: session[:selected], datatype: para).order(contentuid: :ASC).page(params[:page])
+    @lines = @q.result().where(upload_id: session[:selected], datatype: para).order(contentuid: :ASC).page(params[:page]).per(1)
+
+
+
+
+
+    input_text = '<LSTag Tooltip="MovementSpeed">Movement Speed</LSTag>: [1]/[2]'
+
+# Regex minta a <LSTag> és </LSTag> közötti tartalom kinyeréséhez
+tag_pattern = /<LSTag Tooltip="(.*?)">(.*?)<\/LSTag>/
+
+# Találatok listája
+matches = input_text.scan(tag_pattern)
+
+# Kezdeti HTML tartalom
+html_content = ''
+
+# Egyes találatok feldolgozása
+matches.each do |match|
+  tooltip = match[0]
+  content = match[1]
+
+  # LSTag div
+  lstag_div = "<div class='btn btn-success' data='Tooltip=#{tooltip}'>LSTag</div>"
+
+  # Input text
+  input_text = "<input type='text' value='#{content}'></input>"
+
+  # /LSTag div
+  lstag_end_div = "<div class='btn btn-success' data=''>/LSTag</div>"
+
+  # Az összes elemet hozzáadjuk az HTML tartalomhoz
+  html_content += "#{lstag_div}\n#{input_text}\n#{lstag_end_div}\n"
+end
+
+# A teljes tartalom kerül a container div-be
+@result = "<div class='container'>\n#{html_content}:[1][2]\n</div>"
+
+
+
+
+
   end
 
   # GET /lines/1

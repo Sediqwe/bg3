@@ -6,8 +6,8 @@ class CreateImages < ActiveRecord::Migration[7.0]
       t.references :upload, null: false, foreign_key: true
       t.string :title
       t.text :desc
-      t.boolean :active, default: false
-      t.boolean :done, default: false
+      t.boolean :active
+      t.boolean :done
 
       t.timestamps
     end

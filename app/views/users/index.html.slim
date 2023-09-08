@@ -5,20 +5,26 @@
       ul
         - @user.errors.each do |error|
           li = error.full_message
-
+  
   .form-body
     .row
       .form-holder
         .form-content
           .form-items
             h3
-            = @user.persisted? ? "Módosítás" : "Új játék"              
+              = @user.persisted? ? "Felhasználói adatok:" : "Új Felhasználó"              
             form.requires-validation[novalidate]
-                .col-md-12
-                    = form.text_field :name, placeholder: "Neve", class: "form-control", required: true                
-                .col-md-12
-                    = form.password_field :password, class: "form-control", required: true                
-                .col-md-12
-                    = form.password_field :password_confirmation, class: "form-control", required: true                
+              .col-md-12
+                = form.label "Név(kisbetűssé lesz alakítva, csak betűk, számok, _ és - jel használható): ", style: "display: block"
+                = form.text_field :name, disabled: !current_user.admin?, placeholder: "(kisbetűssé lesz alakítva, csak betűk, számok, _ és - jel használható)", class: "form-control", required: true                
+              .col-md-12
+                = form.label "E-mail:", style: "display: block"
+                = form.text_field :email, placeholder: "E-mail", class: "form-control", required: true                
+              .col-md-12
+                = form.label "Jelszó ismét:", style: "display: block"
+                = form.password_field :password, class: "form-control", required: true              
+              .col-md-12
+                = form.label "Jelszó ismét:", style: "display: block"
+                = form.password_field :password_confirmation, class: "form-control", required: true
                 .form-button.mt-3
                     = form.submit(@user.persisted? ? "Módosítás »" : "Felvétel »", class: "btn btn-primary")

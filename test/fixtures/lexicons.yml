@@ -2,18 +2,14 @@
 
 one:
   user: one
-  game: one
-  upload: one
-  title: MyString
-  desc: MyText
+  word: MyString
   active: false
-  done: false
+  wordhu: MyString
+  lang: MyString
 
 two:
   user: two
-  game: two
-  upload: two
-  title: MyString
-  desc: MyText
+  word: MyString
   active: false
-  done: false
+  wordhu: MyString
+  lang: MyString

@@ -1,5 +1,5 @@
-
-=link_to "Új felhasználó felvétele:" , user_new_path, class: "btn btn-success"
+- if current_user.usertype == 1 || current_user.admin?
+    =link_to "Új felhasználó felvétele:" , user_new_path, class: "btn btn-success"
 -@userslist.each do |user|
     .row
         .col-2
@@ -15,4 +15,7 @@
                 -when 3
                     | Teszter                
                 -else
-                    |Hiba van!       
+                    |Hiba van 
+        .col-2 
+            - if current_user.admin? && !user.admin?
+                = button_to "User törlése", user_path(id: user.id), class: "btn btn-danger", method: :delete 

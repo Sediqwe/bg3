@@ -5,7 +5,7 @@ tr id="#{dom_id line}"
   td
     =< line.version 
 tr 
-  td id="#{dom_id line}" class="p-1"
+  td id="line_content" class="p-1"
     =< line.content
   td
     
@@ -20,7 +20,7 @@ tr
       -else
         = link_to linex.oldcontent, linegood_path(id: linex.id), remote:true , class: "btn btn-link"
       br
-  tr hidden="hidden" id=("translate_#{line.id}")
+  tr  id=("translate_#{line.id}")
  
  
     td[colspan=2]
@@ -40,8 +40,10 @@ tr
         = form.hidden_field :lang, value: 99
         = form.hidden_field :upload_id, value: line.upload_id
         = form.hidden_field :content, value: line.content
-        = form.text_area :oldcontent,value: adatka, class:"form-control", required: true    
+        = form.text_area :oldcontent,value: adatka, class:"form-control", required: true , data: line.id   
         = form.submit "Beküldés", class: "btn btn-success"
+  tr 
+    = @result.html_safe
 
     
   

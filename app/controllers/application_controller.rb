@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
   add_flash_types :info, :error, :success
-    helper_method :current_user
+    helper_method :current_user    
     include LogHelper
     def current_user      
         if session[:user_id]
@@ -15,7 +15,9 @@ class ApplicationController < ActionController::Base
       flash[:error] = 'Előbb lépj be!.'
       redirect_to login_url
     end
-    def admin?
-      current_user.present? && current_user.usertype == 1
+    def admin1?
+      return if current_user.admin?
+        flash[:error] = 'Csak adminoknak!.'
+        redirect_to root_url
     end
 end

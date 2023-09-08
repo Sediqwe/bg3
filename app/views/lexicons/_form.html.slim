@@ -1,0 +1,30 @@
+= form_with(model: @lexicon) do |form|
+  - if @lexicon.errors.any?
+    div style="color: red"
+      h2 = "#{pluralize(@lexicon.errors.count, "error")} prohibited this lexicon from being saved:"
+      ul
+        - @lexicon.errors.each do |error|
+          li = error.full_message
+
+  div
+    = form.label :user_id, style: "display: block"
+    = form.text_field :user_id
+
+  div
+    = form.label :word, style: "display: block"
+    = form.text_field :word
+
+  div
+    = form.label :active, style: "display: block"
+    = form.check_box :active
+
+  div
+    = form.label :wordhu, style: "display: block"
+    = form.text_field :wordhu
+
+  div
+    = form.label :lang, style: "display: block"
+    = form.text_field :lang
+
+  div
+    = form.submit

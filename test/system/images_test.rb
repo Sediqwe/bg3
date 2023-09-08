@@ -17,7 +17,7 @@ class ImagesTest < ApplicationSystemTestCase
     check "Active" if @image.active
     fill_in "Desc", with: @image.desc
     check "Done" if @image.done
-    fill_in "Game id", with: @image.game_id_id
+    fill_in "Game", with: @image.game_id
     fill_in "Title", with: @image.title
     fill_in "Upload", with: @image.upload_id
     fill_in "User", with: @image.user_id
@@ -34,7 +34,7 @@ class ImagesTest < ApplicationSystemTestCase
     check "Active" if @image.active
     fill_in "Desc", with: @image.desc
     check "Done" if @image.done
-    fill_in "Game id", with: @image.game_id_id
+    fill_in "Game", with: @image.game_id
     fill_in "Title", with: @image.title
     fill_in "Upload", with: @image.upload_id
     fill_in "User", with: @image.user_id

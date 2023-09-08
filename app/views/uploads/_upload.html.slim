@@ -23,6 +23,7 @@ tr  id="#{dom_id upload}"
       = link_to "Beolvasás", readxml_path(id: upload), class: "btn btn-success"
     - else
       = link_to "Letöltés", download_path(id: upload), class: "btn btn-success "
+      = link_to "Hiba jelzés", images_path(id: upload), class: "btn btn-success "
     - if !upload.selected
       = link_to "Aktív verzió", active_path(id: upload), class: "btn btn-success m-2"
     - else

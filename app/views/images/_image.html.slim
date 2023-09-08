@@ -1,22 +1,23 @@
-div id="#{dom_id image}"
-  p
-    strong User:
-    =< image.user_id
-  p
-    strong Game:
-    =< image.game_id_id
-  p
-    strong Upload:
-    =< image.upload_id
-  p
-    strong Title:
-    =< image.title
-  p
-    strong Desc:
-    =< image.desc
-  p
-    strong Active:
-    =< image.active
-  p
-    strong Done:
-    =< image.done
+.row
+  .col-11
+      .product-card.shadow.rounded
+        .col-3
+          .product-image
+            = image_tag(image.image.variant(resize_to_fit: [495, 495], crop: "495x495+0+0"), class: 'rounded') if image.image.present?
+        .col-6
+          .product-description
+            h3
+              =< image.title
+            p
+              =< image.desc
+            p 
+              - @imagelines.each do |line|
+                .btn.btn-success 
+                  = line.line.content
+                br  
+        .col-3
+          .product-action
+            = link_to "javítva", root_path, class:"btn btn-success"
+            br
+            = link_to "javítva", root_path, class:"btn btn-success"
+      
