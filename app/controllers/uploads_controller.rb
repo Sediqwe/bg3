@@ -49,7 +49,7 @@ class UploadsController < ApplicationController
 
   # DELETE /uploads/1
   def destroy
-    create_log( "Page: Uploads#Destroy", "XML file letörölve. #{@upload.game.name}, version: #{@upload.version} Törölt felvett sorok: #{Line.where(file_id: @upload.id).size}")
+    create_log( "Page: Uploads#Destroy", "XML file letörölve. #{@upload.game.name}, version: #{@upload.version} Törölt felvett sorok: #{Line.where(upload_id: @upload.id).size}")
     @upload.destroy
     redirect_to uploads_url, notice: "Upload was successfully destroyed.", status: :see_other
   end
@@ -64,7 +64,7 @@ class UploadsController < ApplicationController
   end
   #Read xml
   def readxml
-    upload = Line.where(upload_id: params[:id]).first # Próbáld megtalálni a megadott ID-jű upload-ot
+    upload = Line.find_by(upload_id: params[:id]) # Próbáld megtalálni a megadott ID-jű upload-ot
     cfile = Upload.find(params[:id]) # Project ID lekérés
     if !upload
       cfile = Upload.find(params[:id]) # Project ID lekérés

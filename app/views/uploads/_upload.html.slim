@@ -18,7 +18,8 @@ tr  id="#{dom_id upload}"
 
   td class="#{ " bg-lime " if upload.selected}"
     = link_to "Módosítás", edit_upload_path(upload) , class: "btn btn-success m-2"
-    - updata = Line.where(upload_id: upload.id).first
+    - updata = Line.find_by(upload_id: upload.id)
+    = link_to "Beolvasás", readxml_path(id: upload), class: "btn btn-success"
     - if !  updata
       = link_to "Beolvasás", readxml_path(id: upload), class: "btn btn-success"
     - else
